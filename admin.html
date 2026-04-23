@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>팡팡렌트카 관리자</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════
+   변수 & 리셋
+══════════════════════════════════ */
+:root {
+  --navy:   #0f172a;
+  --dark:   #1e293b;
+  --panel:  #253047;
+  --border: #334155;
+  --sky:    #38bdf8;
+  --blue:   #0ea5e9;
+  --ocean:  #0369a1;
+  --sun:    #fbbf24;
+  --coral:  #fb7185;
+  --mint:   #34d399;
+  --text:   #f1f5f9;
+  --soft:   #94a3b8;
+  --r:      12px;
+  --touch:  48px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--navy);
+  color:var(--text);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ══════════════════════════════════
+   로그인 화면
+══════════════════════════════════ */
+#loginScreen{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;
+  background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);
+  padding:24px;
+}
+.login-box{
+  width:100%;max-width:380px;
+  background:var(--dark);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:40px 32px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+  animation:fadeUp .5s ease both;
+}
+.login-logo{
+  text-align:center;margin-bottom:28px;
+}
+.login-logo .badge{
+  display:inline-block;
+  background:var(--blue);color:#fff;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:11px;letter-spacing:1px;
+  padding:4px 12px;border-radius:99px;margin-bottom:10px;
+}
+.login-logo h1{
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:22px;color:var(--text);line-height:1.3;
+}
+.login-logo p{font-size:12px;color:var(--soft);margin-top:4px;}
+
+.login-field{margin-bottom:14px;}
+.login-field label{display:block;font-size:12px;font-weight:700;color:var(--soft);margin-bottom:6px;}
+.login-field input{
+  width:100%;height:var(--touch);padding:0 16px;
+  background:var(--panel);border:1.5px solid var(--border);
+  border-radius:var(--r);font-size:16px;color:var(--text);
+  outline:none;transition:border-color .2s;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.login-field input:focus{border-color:var(--blue);}
+.login-err{font-size:12px;color:var(--coral);margin-top:6px;display:none;}
+.login-btn{
+  width:100%;height:50px;margin-top:8px;
+  background:linear-gradient(135deg,var(--blue),var(--ocean));
+  border:none;border-radius:var(--r);
+  color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:16px;
+  cursor:pointer;transition:opacity .2s,transform .15s;
+}
+.login-btn:active{transform:scale(.97);}
+
+/* ══════════════════════════════════
+   관리자 메인
+══════════════════════════════════ */
+#adminScreen{display:none;}
+
+.top-bar{
+  background:var(--dark);border-bottom:1px solid var(--border);
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.top-bar-left{display:flex;align-items:center;gap:10px;}
+.top-bar h1{font-family:'Nunito',sans-serif;font-weight:900;font-size:16px;color:var(--text);}
+.top-bar .badge{
+  background:var(--blue);color:#fff;
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;
+}
+.logout-btn{
+  background:transparent;border:1px solid var(--border);
+  color:var(--soft);font-size:12px;font-weight:700;
+  padding:6px 12px;border-radius:8px;cursor:pointer;
+  transition:all .2s;
+}
+.logout-btn:hover{border-color:var(--coral);color:var(--coral);}
+
+/* 탭 */
+.tabs{
+  display:flex;gap:0;
+  background:var(--dark);border-bottom:1px solid var(--border);
+  padding:0 20px;
+}
+.tab-btn{
+  padding:14px 20px;font-size:13px;font-weight:700;
+  color:var(--soft);border:none;background:transparent;
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:all .2s;white-space:nowrap;
+}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+.tab-content{display:none;padding:20px;}
+.tab-content.active{display:block;}
+
+/* ══════════════════════════════════
+   입력 폼 (관리자용)
+══════════════════════════════════ */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr;}}
+
+.acard{
+  background:var(--dark);border:1px solid var(--border);
+  border-radius:16px;padding:20px;margin-bottom:16px;
+}
+.acard-title{
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;
+  color:var(--sky);margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.acard-title::before{
+  content:'';display:inline-block;width:3px;height:16px;
+  background:var(--blue);border-radius:99px;
+}
+.afield{margin-bottom:12px;}
+.afield:last-child{margin-bottom:0;}
+.afield label{display:block;font-size:11px;font-weight:700;color:var(--soft);margin-bottom:5px;}
+.afield input,.afield select,.afield textarea{
+  width:100%;height:var(--touch);padding:0 14px;
+  background:var(--panel);border:1.5px solid var(--border);
+  border-radius:var(--r);font-size:15px;color:var(--text);
+  outline:none;transition:border-color .2s;
+  font-family:'Noto Sans KR',sans-serif;
+  appearance:none;-webkit-appearance:none;
+}
+.afield textarea{height:80px;padding:12px 14px;resize:vertical;}
+.afield input:focus,.afield select:focus,.afield textarea:focus{border-color:var(--blue);}
+.afield input::placeholder,.afield textarea::placeholder{color:#475569;font-size:13px;}
+.afield select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;
+}
+
+/* 액션 버튼 */
+.action-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+.abtn{
+  flex:1;min-width:140px;height:50px;border:none;border-radius:var(--r);
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;
+  cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.abtn-quote{background:linear-gradient(135deg,var(--blue),var(--ocean));color:#fff;box-shadow:0 4px 16px rgba(14,165,233,.35);}
+.abtn-contract{background:linear-gradient(135deg,var(--sun),#f59e0b);color:#fff;box-shadow:0 4px 16px rgba(251,191,36,.35);}
+.abtn-clear{background:var(--panel);color:var(--soft);border:1px solid var(--border);}
+.abtn:active{transform:scale(.96);}
+
+/* ══════════════════════════════════
+   인쇄 미리보기 영역
+══════════════════════════════════ */
+#previewArea{display:none;margin-top:20px;}
+.preview-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;flex-wrap:wrap;gap:10px;
+}
+.preview-bar h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;color:var(--sky);}
+.print-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:10px 20px;border:none;border-radius:var(--r);
+  background:linear-gradient(135deg,var(--mint),#059669);
+  color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;
+  cursor:pointer;transition:all .18s;
+}
+.print-btn:active{transform:scale(.96);}
+
+/* ══════════════════════════════════
+   문서 (인쇄용)
+══════════════════════════════════ */
+.doc-wrap{
+  background:#fff;color:#1a1a1a;
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,.4);
+  font-family:'Noto Sans KR',sans-serif;
+}
+.doc-inner{padding:40px 44px;}
+
+.doc-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding-bottom:20px;border-bottom:2px solid #0369a1;margin-bottom:24px;
+}
+.doc-brand .brand-name{
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:22px;color:#0369a1;letter-spacing:-.3px;
+}
+.doc-brand .brand-sub{font-size:11px;color:#64748b;margin-top:2px;}
+.doc-brand .brand-contact{font-size:11px;color:#475569;margin-top:6px;line-height:1.7;}
+
+.doc-title-box{text-align:right;}
+.doc-title-box .doc-type{
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:26px;color:#0f172a;letter-spacing:-.5px;
+}
+.doc-title-box .doc-num{font-size:11px;color:#64748b;margin-top:4px;}
+.doc-title-box .doc-date{font-size:11px;color:#64748b;}
+
+/* 섹션 */
+.doc-section{margin-bottom:22px;}
+.doc-section-title{
+  font-size:11px;font-weight:700;color:#0369a1;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:6px 10px;background:#e0f2fe;border-radius:6px;
+  margin-bottom:12px;display:inline-block;
+}
+.doc-table{width:100%;border-collapse:collapse;}
+.doc-table tr{border-bottom:1px solid #f1f5f9;}
+.doc-table tr:last-child{border-bottom:none;}
+.doc-table th{
+  width:130px;padding:9px 12px;
+  font-size:12px;font-weight:700;color:#475569;
+  text-align:left;background:#f8fafc;vertical-align:top;
+}
+.doc-table td{
+  padding:9px 12px;font-size:13px;color:#1a1a1a;
+  vertical-align:top;line-height:1.6;
+}
+.doc-table td strong{color:#0369a1;font-weight:700;}
+
+/* 합계 박스 */
+.total-box{
+  background:linear-gradient(135deg,#eff6ff,#e0f2fe);
+  border:1.5px solid #bae6fd;border-radius:10px;
+  padding:16px 20px;margin:20px 0;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.total-label{font-size:13px;font-weight:700;color:#0369a1;}
+.total-val{font-family:'Nunito',sans-serif;font-weight:900;font-size:22px;color:#0369a1;}
+.total-sub{font-size:11px;color:#64748b;margin-top:2px;}
+
+/* 특약/개인정보 박스 */
+.clause-box{
+  background:#f8fafc;border:1px solid #e2e8f0;
+  border-radius:8px;padding:14px 16px;
+  font-size:11px;color:#475569;line-height:1.9;
+}
+.clause-box strong{color:#0f172a;font-weight:700;}
+
+/* 서명란 */
+.sign-section{
+  margin-top:28px;padding-top:20px;
+  border-top:1px dashed #cbd5e1;
+}
+.sign-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.sign-box{
+  border:1px solid #e2e8f0;border-radius:8px;
+  padding:16px;text-align:center;
+}
+.sign-box .sign-label{font-size:11px;font-weight:700;color:#64748b;margin-bottom:30px;}
+.sign-box .sign-line{border-bottom:1px solid #cbd5e1;margin-bottom:8px;}
+.sign-box .sign-name{font-size:12px;color:#475569;}
+
+/* 문서 푸터 */
+.doc-footer{
+  margin-top:24px;padding-top:14px;
+  border-top:1px solid #e2e8f0;
+  font-size:10px;color:#94a3b8;text-align:center;line-height:1.8;
+}
+
+/* 유효기간 배지 */
+.valid-badge{
+  display:inline-block;
+  background:#fef3c7;border:1px solid #fcd34d;
+  color:#92400e;font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:99px;margin-top:8px;
+}
+
+/* ══════════════════════════════════
+   애니메이션
+══════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══════════════════════════════════
+   인쇄 CSS
+══════════════════════════════════ */
+@media print {
+  body * { visibility: hidden; }
+  #printDoc, #printDoc * { visibility: visible; }
+  #printDoc {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 20px;
+  }
+  .doc-wrap { box-shadow: none; border-radius: 0; }
+  .top-bar, .tabs, .tab-content > *:not(#previewArea),
+  .preview-bar, #previewArea > *:not(#printDoc) { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     로그인 화면
+══════════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="badge">🔒 ADMIN</div>
+      <h1>팡팡렌트카<br/>관리자 시스템</h1>
+      <p>견적서 · 계약서 발행 전용</p>
+    </div>
+    <div class="login-field">
+      <label>비밀번호</label>
+      <input type="password" id="pwInput" placeholder="비밀번호를 입력하세요" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="login-err" id="loginErr">⚠️ 비밀번호가 올바르지 않습니다.</div>
+    <button class="login-btn" onclick="doLogin()">🔓 로그인</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     관리자 메인
+══════════════════════════════════ -->
+<div id="adminScreen">
+
+  <!-- 상단바 -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="badge">🚗 ADMIN</span>
+      <h1>팡팡렌트카 관리자</h1>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">로그아웃</button>
+  </div>
+
+  <!-- 탭 -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('quote')">📋 견적서 발행</button>
+    <button class="tab-btn" onclick="switchTab('contract')">📝 계약서 발행</button>
+  </div>
+
+  <!-- ── 견적서 탭 ── -->
+  <div class="tab-content active" id="tab-quote">
+
+    <div class="acard">
+      <div class="acard-title">고객 정보</div>
+      <div class="form-grid">
+        <div class="afield"><label>고객명 *</label><input type="text" id="q_name" placeholder="홍길동"/></div>
+        <div class="afield"><label>연락처 *</label><input type="tel" id="q_phone" placeholder="010-0000-0000" oninput="fmtTel(this)"/></div>
+        <div class="afield"><label>생년월일</label><input type="text" id="q_birth" placeholder="19900101" maxlength="8" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
+        <div class="afield"><label>견적일자</label><input type="date" id="q_date"/></div>
+      </div>
+    </div>
+
+    <div class="acard">
+      <div class="acard-title">차량 정보</div>
+      <div class="form-grid">
+        <div class="afield"><label>차량모델 *</label><input type="text" id="q_model" placeholder="아반떼 (G)"/></div>
+        <div class="afield"><label>연식</label><input type="text" id="q_year" placeholder="2024년식"/></div>
+        <div class="afield"><label>색상</label><input type="text" id="q_color" placeholder="아틀라스 화이트"/></div>
+        <div class="afield"><label>주행거리</label><input type="text" id="q_mileage" placeholder="69,498"/></div>
+      </div>
+    </div>
+
+    <div class="acard">
+      <div class="acard-title">계약 조건</div>
+      <div class="form-grid">
+        <div class="afield">
+          <label>계약기간 *</label>
+          <select id="q_period">
+            <option value="">선택</option>
+            <option>1개월</option><option>2개월</option><option>3개월</option>
+            <option>6개월</option><option>12개월</option><option>24개월</option><option>36개월</option>
+          </select>
+        </div>
+        <div class="afield"><label>월렌트료 *</label><input type="text" id="q_price" placeholder="595,000" oninput="fmtPrice(this,'q_total')"/></div>
+        <div class="afield">
+          <label>보험조건</label>
+          <select id="q_insurance">
+            <option>대인/대물 무제한</option>
+            <option>대인 무제한 / 대물 1억</option>
+            <option>대인/대물 각 1억</option>
+            <option>직접입력</option>
+          </select>
+        </div>
+        <div class="afield"><label>보증금</label><input type="text" id="q_deposit" placeholder="0"/></div>
+        <div class="afield"><label>탁송비</label><input type="text" id="q_delivery" placeholder="0"/></div>
+        <div class="afield"><label>기타비용</label><input type="text" id="q_etc" placeholder="없음"/></div>
+      </div>
+      <div class="afield" style="margin-top:4px;">
+        <label>총액 (자동계산)</label>
+        <input type="text" id="q_total" readonly placeholder="자동계산" style="color:var(--sky);font-weight:700;"/>
+      </div>
+    </div>
+
+    <div class="action-btns">
+      <button class="abtn abtn-quote" onclick="genDoc('quote')">📋 견적서 미리보기</button>
+      <button class="abtn abtn-clear" onclick="clearForm('quote')">🗑️ 초기화</button>
+    </div>
+
+    <!-- 미리보기 -->
+    <div id="previewArea" style="display:none;margin-top:20px;">
+      <div class="preview-bar">
+        <h3>📋 견적서 미리보기</h3>
+        <button class="print-btn" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+      </div>
+      <div id="printDoc">
+        <div class="doc-wrap">
+          <div class="doc-inner" id="docContent"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── 계약서 탭 ── -->
+  <div class="tab-content" id="tab-contract">
+
+    <div class="acard">
+      <div class="acard-title">고객 정보</div>
+      <div class="form-grid">
+        <div class="afield"><label>고객명 *</label><input type="text" id="c_name" placeholder="홍길동"/></div>
+        <div class="afield"><label>연락처 *</label><input type="tel" id="c_phone" placeholder="010-0000-0000" oninput="fmtTel(this)"/></div>
+        <div class="afield"><label>생년월일</label><input type="text" id="c_birth" placeholder="19900101" maxlength="8" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
+        <div class="afield"><label>주소</label><input type="text" id="c_addr" placeholder="고객 주소"/></div>
+      </div>
+    </div>
+
+    <div class="acard">
+      <div class="acard-title">차량 정보</div>
+      <div class="form-grid">
+        <div class="afield"><label>차량모델 *</label><input type="text" id="c_model" placeholder="아반떼 (G)"/></div>
+        <div class="afield"><label>차량번호</label><input type="text" id="c_carnum" placeholder="12가 3456"/></div>
+        <div class="afield"><label>연식</label><input type="text" id="c_year" placeholder="2024년식"/></div>
+        <div class="afield"><label>색상</label><input type="text" id="c_color" placeholder="아틀라스 화이트"/></div>
+        <div class="afield"><label>주행거리</label><input type="text" id="c_mileage" placeholder="69,498"/></div>
+      </div>
+    </div>
+
+    <div class="acard">
+      <div class="acard-title">계약 조건</div>
+      <div class="form-grid">
+        <div class="afield"><label>계약시작일 *</label><input type="date" id="c_start"/></div>
+        <div class="afield"><label>계약종료일 *</label><input type="date" id="c_end"/></div>
+        <div class="afield">
+          <label>계약기간</label>
+          <select id="c_period">
+            <option value="">선택</option>
+            <option>1개월</option><option>2개월</option><option>3개월</option>
+            <option>6개월</option><option>12개월</option><option>24개월</option><option>36개월</option>
+          </select>
+        </div>
+        <div class="afield"><label>납입일</label><input type="text" id="c_payday" placeholder="매월 25일"/></div>
+        <div class="afield"><label>월렌트료 *</label><input type="text" id="c_price" placeholder="595,000" oninput="fmtPrice(this,'c_total')"/></div>
+        <div class="afield">
+          <label>보험조건</label>
+          <select id="c_insurance">
+            <option>대인/대물 무제한</option>
+            <option>대인 무제한 / 대물 1억</option>
+            <option>대인/대물 각 1억</option>
+            <option>직접입력</option>
+          </select>
+        </div>
+        <div class="afield"><label>보증금</label><input type="text" id="c_deposit" placeholder="0"/></div>
+        <div class="afield"><label>탁송비</label><input type="text" id="c_delivery" placeholder="0"/></div>
+        <div class="afield"><label>기타비용</label><input type="text" id="c_etc" placeholder="없음"/></div>
+      </div>
+      <div class="afield" style="margin-top:4px;">
+        <label>총액 (자동계산)</label>
+        <input type="text" id="c_total" readonly placeholder="자동계산" style="color:var(--sky);font-weight:700;"/>
+      </div>
+      <div class="afield" style="margin-top:4px;">
+        <label>특약사항</label>
+        <textarea id="c_special" placeholder="특약사항을 입력하세요 (없으면 비워두세요)"></textarea>
+      </div>
+    </div>
+
+    <div class="action-btns">
+      <button class="abtn abtn-contract" onclick="genDoc('contract')">📝 계약서 미리보기</button>
+      <button class="abtn abtn-clear" onclick="clearForm('contract')">🗑️ 초기화</button>
+    </div>
+
+    <!-- 미리보기 -->
+    <div id="previewAreaC" style="display:none;margin-top:20px;">
+      <div class="preview-bar">
+        <h3>📝 계약서 미리보기</h3>
+        <button class="print-btn" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+      </div>
+      <div id="printDoc">
+        <div class="doc-wrap">
+          <div class="doc-inner" id="docContentC"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /adminScreen -->
+
+<script>
+/* ── 비밀번호 ── */
+const ADMIN_PW = 'pangpang2017'; // ← 원하는 비밀번호로 변경하세요
+
+function doLogin(){
+  const pw = document.getElementById('pwInput').value;
+  if(pw === ADMIN_PW){
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    setTodayDate();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+function doLogout(){
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminScreen').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+}
+
+/* ── 오늘 날짜 자동 입력 ── */
+function setTodayDate(){
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('q_date').value = today;
+  document.getElementById('c_start').value = today;
+}
+
+/* ── 탭 전환 ── */
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active', (i===0&&tab==='quote')||(i===1&&tab==='contract'));
+  });
+  document.getElementById('tab-quote').classList.toggle('active', tab==='quote');
+  document.getElementById('tab-contract').classList.toggle('active', tab==='contract');
+}
+
+/* ── 전화번호 포맷 ── */
+function fmtTel(el){
+  let v = el.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>7) el.value = v.slice(0,3)+'-'+v.slice(3,7)+'-'+v.slice(7);
+  else if(v.length>3) el.value = v.slice(0,3)+'-'+v.slice(3);
+  else el.value = v;
+}
+
+/* ── 금액 포맷 + 총액 계산 ── */
+function fmtPrice(el, totalId){
+  let raw = el.value.replace(/[^\d]/g,'');
+  el.value = raw ? Number(raw).toLocaleString() : '';
+  // 총액 계산 (견적서: q_period / 계약서: c_period)
+  const prefix = el.id.startsWith('q') ? 'q' : 'c';
+  calcTotal(prefix);
+}
+function calcTotal(p){
+  const priceRaw = (document.getElementById(p+'_price').value||'').replace(/[^\d]/g,'');
+  const periodVal = (document.getElementById(p+'_period').value||'').replace(/[^\d]/g,'');
+  if(priceRaw && periodVal){
+    const total = Number(priceRaw) * Number(periodVal);
+    document.getElementById(p+'_total').value = total.toLocaleString()+'원';
+  }
+}
+
+/* ── 초기화 ── */
+function clearForm(type){
+  const p = type==='quote'?'q':'c';
+  document.querySelectorAll(`[id^="${p}_"]`).forEach(el=>{
+    if(el.tagName==='SELECT') el.selectedIndex=0;
+    else el.value='';
+  });
+  if(type==='quote'){
+    document.getElementById('previewArea').style.display='none';
+    setTodayDate();
+  } else {
+    document.getElementById('previewAreaC').style.display='none';
+    setTodayDate();
+  }
+}
+
+/* ── 문서 번호 생성 ── */
+function genDocNum(prefix){
+  const now = new Date();
+  return prefix + now.getFullYear().toString().slice(2) +
+    String(now.getMonth()+1).padStart(2,'0') +
+    String(now.getDate()).padStart(2,'0') + '-' +
+    String(now.getHours()).padStart(2,'0') +
+    String(now.getMinutes()).padStart(2,'0');
+}
+
+/* ── 견적서 / 계약서 생성 ── */
+function genDoc(type){
+  if(type==='quote') genQuote();
+  else genContract();
+}
+
+function genQuote(){
+  const name    = document.getElementById('q_name').value.trim();
+  const phone   = document.getElementById('q_phone').value.trim();
+  const birth   = document.getElementById('q_birth').value.trim();
+  const date    = document.getElementById('q_date').value;
+  const model   = document.getElementById('q_model').value.trim();
+  const year    = document.getElementById('q_year').value.trim();
+  const color   = document.getElementById('q_color').value.trim();
+  const mileage = document.getElementById('q_mileage').value.trim();
+  const period  = document.getElementById('q_period').value;
+  const price   = document.getElementById('q_price').value.trim();
+  const ins     = document.getElementById('q_insurance').value;
+  const deposit = document.getElementById('q_deposit').value.trim()||'없음';
+  const delivery= document.getElementById('q_delivery').value.trim()||'없음';
+  const etc     = document.getElementById('q_etc').value.trim()||'없음';
+  const total   = document.getElementById('q_total').value.trim();
+
+  if(!name||!phone||!model||!price||!period){
+    alert('⚠️ 고객명, 연락처, 차량모델, 계약기간, 월렌트료는 필수입니다.');
+    return;
+  }
+
+  const fmtDate = (d)=>{
+    if(!d) return '-';
+    const [y,m,dd]=d.split('-');
+    return `${y}년 ${m}월 ${dd}일`;
+  };
+
+  const docNum = genDocNum('QT');
+
+  document.getElementById('docContent').innerHTML = `
+    <div class="doc-header">
+      <div class="doc-brand">
+        <div class="brand-name">🚗 팡팡렌트카</div>
+        <div class="brand-sub">PangPang Rent-a-car</div>
+        <div class="brand-contact">
+          Tel : 062-973-6635 / 010-4835-6635<br/>
+          광주광역시 광산구 첨단중앙로124번길17 2층<br/>
+          사업자번호 : 803-81-00790
+        </div>
+      </div>
+      <div class="doc-title-box">
+        <div class="doc-type">견 적 서</div>
+        <div class="doc-num">No. ${docNum}</div>
+        <div class="doc-date">견적일 : ${fmtDate(date)}</div>
+        <div class="valid-badge">📅 유효기간 : 발행일로부터 7일</div>
+      </div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">고객 정보</div>
+      <table class="doc-table">
+        <tr><th>고객명</th><td><strong>${name}</strong></td></tr>
+        <tr><th>연락처</th><td>${phone}</td></tr>
+        ${birth?`<tr><th>생년월일</th><td>${birth}</td></tr>`:''}
+      </table>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">차량 정보</div>
+      <table class="doc-table">
+        <tr><th>차량모델</th><td><strong>${model}</strong></td></tr>
+        ${year?`<tr><th>연식</th><td>${year}</td></tr>`:''}
+        ${color?`<tr><th>색상</th><td>${color}</td></tr>`:''}
+        ${mileage?`<tr><th>주행거리</th><td>${Number(mileage.replace(/[^\d]/g,'')).toLocaleString()} km</td></tr>`:''}
+      </table>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">계약 조건</div>
+      <table class="doc-table">
+        <tr><th>계약기간</th><td><strong>${period}</strong></td></tr>
+        <tr><th>월렌트료</th><td><strong style="color:#0369a1;font-size:15px;">${price}원</strong></td></tr>
+        <tr><th>보험조건</th><td>${ins}</td></tr>
+        <tr><th>보증금</th><td>${deposit}</td></tr>
+        <tr><th>탁송비</th><td>${delivery}</td></tr>
+        <tr><th>기타비용</th><td>${etc}</td></tr>
+      </table>
+    </div>
+
+    ${total?`
+    <div class="total-box">
+      <div>
+        <div class="total-label">계약기간 총 납입 예상금액</div>
+        <div class="total-sub">(월렌트료 기준 / 보증금·탁송비 별도)</div>
+      </div>
+      <div class="total-val">${total}</div>
+    </div>`:''}
+
+    <div class="sign-section">
+      <div class="sign-grid">
+        <div class="sign-box">
+          <div class="sign-label">공급자 (팡팡렌트카)</div>
+          <div class="sign-line"></div>
+          <div class="sign-name">대표 정한영 (인)</div>
+        </div>
+        <div class="sign-box">
+          <div class="sign-label">고객 서명</div>
+          <div style="height:38px;"></div>
+          <div class="sign-line"></div>
+          <div class="sign-name">${name} (인) &nbsp;&nbsp;&nbsp; 날짜 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      본 견적서는 발행일로부터 7일간 유효하며, 차량 상태 및 재고에 따라 변동될 수 있습니다.<br/>
+      팡팡렌트카 | 통신판매업 신고번호 : 제 2017-광주광산-00652호 | 개인정보관리책임자 : 정한영
+    </div>
+  `;
+
+  document.getElementById('previewArea').style.display = 'block';
+  document.getElementById('previewArea').scrollIntoView({behavior:'smooth'});
+}
+
+function genContract(){
+  const name    = document.getElementById('c_name').value.trim();
+  const phone   = document.getElementById('c_phone').value.trim();
+  const birth   = document.getElementById('c_birth').value.trim();
+  const addr    = document.getElementById('c_addr').value.trim();
+  const model   = document.getElementById('c_model').value.trim();
+  const carnum  = document.getElementById('c_carnum').value.trim();
+  const year    = document.getElementById('c_year').value.trim();
+  const color   = document.getElementById('c_color').value.trim();
+  const mileage = document.getElementById('c_mileage').value.trim();
+  const start   = document.getElementById('c_start').value;
+  const end     = document.getElementById('c_end').value;
+  const period  = document.getElementById('c_period').value;
+  const payday  = document.getElementById('c_payday').value.trim()||'매월 25일';
+  const price   = document.getElementById('c_price').value.trim();
+  const ins     = document.getElementById('c_insurance').value;
+  const deposit = document.getElementById('c_deposit').value.trim()||'없음';
+  const delivery= document.getElementById('c_delivery').value.trim()||'없음';
+  const etc     = document.getElementById('c_etc').value.trim()||'없음';
+  const total   = document.getElementById('c_total').value.trim();
+  const special = document.getElementById('c_special').value.trim()||'해당 없음';
+
+  if(!name||!phone||!model||!price||!start||!end){
+    alert('⚠️ 고객명, 연락처, 차량모델, 월렌트료, 계약기간은 필수입니다.');
+    return;
+  }
+
+  const fmtDate = (d)=>{
+    if(!d) return '-';
+    const [y,m,dd]=d.split('-');
+    return `${y}년 ${m}월 ${dd}일`;
+  };
+
+  const today = new Date().toISOString().split('T')[0];
+  const docNum = genDocNum('CT');
+
+  document.getElementById('docContentC').innerHTML = `
+    <div class="doc-header">
+      <div class="doc-brand">
+        <div class="brand-name">🚗 팡팡렌트카</div>
+        <div class="brand-sub">PangPang Rent-a-car</div>
+        <div class="brand-contact">
+          Tel : 062-973-6635 / 010-4835-6635<br/>
+          광주광역시 광산구 첨단중앙로124번길17 2층<br/>
+          사업자번호 : 803-81-00790
+        </div>
+      </div>
+      <div class="doc-title-box">
+        <div class="doc-type">계 약 서</div>
+        <div class="doc-num">No. ${docNum}</div>
+        <div class="doc-date">계약일 : ${fmtDate(today)}</div>
+      </div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">계약 당사자</div>
+      <table class="doc-table">
+        <tr><th>임대인 (갑)</th><td><strong>팡팡렌트카</strong> 대표 정한영</td></tr>
+        <tr><th>임차인 (을)</th><td><strong>${name}</strong>${birth?' ('+birth+')':''}</td></tr>
+        <tr><th>연락처</th><td>${phone}</td></tr>
+        ${addr?`<tr><th>주소</th><td>${addr}</td></tr>`:''}
+      </table>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">차량 정보</div>
+      <table class="doc-table">
+        <tr><th>차량모델</th><td><strong>${model}</strong></td></tr>
+        ${carnum?`<tr><th>차량번호</th><td>${carnum}</td></tr>`:''}
+        ${year?`<tr><th>연식</th><td>${year}</td></tr>`:''}
+        ${color?`<tr><th>색상</th><td>${color}</td></tr>`:''}
+        ${mileage?`<tr><th>주행거리</th><td>${Number(mileage.replace(/[^\d]/g,'')).toLocaleString()} km</td></tr>`:''}
+      </table>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">계약 조건</div>
+      <table class="doc-table">
+        <tr><th>계약기간</th><td><strong>${fmtDate(start)} ~ ${fmtDate(end)}${period?' ('+period+')':''}</strong></td></tr>
+        <tr><th>월렌트료</th><td><strong style="color:#0369a1;font-size:15px;">${price}원</strong> (납입일 : ${payday})</td></tr>
+        <tr><th>보험조건</th><td>${ins}</td></tr>
+        <tr><th>보증금</th><td>${deposit}</td></tr>
+        <tr><th>탁송비</th><td>${delivery}</td></tr>
+        <tr><th>기타비용</th><td>${etc}</td></tr>
+      </table>
+    </div>
+
+    ${total?`
+    <div class="total-box">
+      <div>
+        <div class="total-label">계약기간 총 납입금액</div>
+        <div class="total-sub">(월렌트료 기준 / 보증금·탁송비 별도)</div>
+      </div>
+      <div class="total-val">${total}</div>
+    </div>`:''}
+
+    <div class="doc-section">
+      <div class="doc-section-title">특약사항</div>
+      <div class="clause-box">${special.replace(/\n/g,'<br/>')}</div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">개인정보 수집 및 이용 동의</div>
+      <div class="clause-box">
+        <strong>수집 항목</strong> : 성명, 연락처, 생년월일, 주소<br/>
+        <strong>수집 목적</strong> : 렌터카 계약 체결 및 이행, 고객 응대<br/>
+        <strong>보유 기간</strong> : 계약 종료 후 5년<br/>
+        <strong>제3자 제공</strong> : 없음<br/><br/>
+        위 개인정보 수집 및 이용에 &nbsp;&nbsp; □ 동의 &nbsp;&nbsp; □ 미동의
+      </div>
+    </div>
+
+    <div class="sign-section">
+      <div class="sign-grid">
+        <div class="sign-box">
+          <div class="sign-label">임대인 (갑) 팡팡렌트카</div>
+          <div style="height:38px;"></div>
+          <div class="sign-line"></div>
+          <div class="sign-name">대표 정한영 (인)</div>
+        </div>
+        <div class="sign-box">
+          <div class="sign-label">임차인 (을) 고객 서명</div>
+          <div style="height:38px;"></div>
+          <div class="sign-line"></div>
+          <div class="sign-name">${name} (인) &nbsp;&nbsp; 날짜 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      팡팡렌트카 | 사업자등록번호 : 803-81-00790 | 통신판매업 신고번호 : 제 2017-광주광산-00652호<br/>
+      광주광역시 광산구 첨단중앙로124번길17 2층 | 개인정보관리책임자 : 정한영
+    </div>
+  `;
+
+  document.getElementById('previewAreaC').style.display = 'block';
+  document.getElementById('previewAreaC').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
