@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>팡팡렌트카 | 장기·단기 렌터카 상담신청</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════
+   변수
+══════════════════════════════════ */
+:root {
+  --sky:       #38bdf8;
+  --sky-deep:  #0ea5e9;
+  --ocean:     #0369a1;
+  --foam:      #e0f7ff;
+  --sun:       #fbbf24;
+  --coral:     #fb7185;
+  --mint:      #34d399;
+  --text:      #0f172a;
+  --soft:      #64748b;
+  --border:    #bae6fd;
+  --card:      rgba(255,255,255,0.88);
+  --r-md:      14px;
+  --r-lg:      20px;
+  --r-xl:      26px;
+  --touch:     52px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  color:var(--text);
+  background:linear-gradient(160deg,#e0f7ff 0%,#bae6fd 28%,#dbeafe 60%,#f0fdf4 100%);
+  min-height:100dvh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ══════════════════════════════════
+   파도
+══════════════════════════════════ */
+.wave-wrap{position:fixed;bottom:0;left:0;width:100%;height:65px;overflow:hidden;z-index:0;pointer-events:none;}
+.wave{position:absolute;bottom:0;width:200%;height:100%;}
+.wave svg{width:100%;height:100%;}
+.wave1{animation:wv 7s linear infinite;opacity:.45;}
+.wave2{animation:wv 11s linear infinite reverse;opacity:.25;bottom:4px;}
+@keyframes wv{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ══════════════════════════════════
+   공통 레이아웃
+══════════════════════════════════ */
+.wrap{position:relative;z-index:1;width:100%;max-width:600px;margin:0 auto;padding:0 14px;}
+
+/* ══════════════════════════════════
+   히어로 섹션
+══════════════════════════════════ */
+.hero{
+  text-align:center;
+  padding:48px 0 36px;
+  animation:fadeDown .65s ease both;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--sun);color:#78350f;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:11px;letter-spacing:1.2px;
+  padding:5px 14px;border-radius:99px;margin-bottom:14px;
+  box-shadow:0 2px 12px rgba(251,191,36,.38);
+}
+.hero h1{
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:clamp(26px,7vw,42px);color:var(--ocean);
+  line-height:1.2;letter-spacing:-.5px;
+}
+.hero h1 span{color:var(--sky-deep);}
+.hero p{margin-top:10px;font-size:clamp(13px,3.5vw,15px);color:var(--soft);line-height:1.75;}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:22px;padding:15px 32px;
+  background:linear-gradient(135deg,var(--sky-deep),var(--ocean));
+  color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;
+  border-radius:99px;border:none;cursor:pointer;
+  box-shadow:0 6px 20px rgba(14,165,233,.4);
+  transition:transform .18s,box-shadow .18s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  text-decoration:none;
+}
+.hero-cta:active{transform:scale(.96);}
+
+/* ══════════════════════════════════
+   섹션 공통
+══════════════════════════════════ */
+.section{padding:32px 0;}
+.section-label{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:clamp(17px,4.5vw,21px);color:var(--ocean);
+  margin-bottom:6px;
+}
+.section-sub{font-size:13px;color:var(--soft);margin-bottom:20px;line-height:1.6;}
+
+/* ══════════════════════════════════
+   Who 카드
+══════════════════════════════════ */
+.who-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+.who-card{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--card);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-radius:var(--r-lg);padding:16px 18px;
+  border:1.5px solid rgba(186,230,253,.55);
+  box-shadow:0 4px 16px rgba(3,105,161,.09);
+}
+.who-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
+.who-text{font-size:14px;line-height:1.65;color:var(--text);}
+
+/* ══════════════════════════════════
+   차량 카드
+══════════════════════════════════ */
+.car-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:420px){.car-grid{grid-template-columns:1fr;}}
+
+.car-card{
+  background:var(--card);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-radius:var(--r-xl);padding:18px 16px 16px;
+  border:1.5px solid rgba(186,230,253,.55);
+  box-shadow:0 4px 20px rgba(3,105,161,.1);
+  position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.car-card:active{transform:scale(.98);}
+
+.car-badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+.badge{
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;
+  letter-spacing:.3px;
+}
+.badge-std{background:#e0f2fe;color:#0369a1;}
+.badge-prem{background:#fce7f3;color:#9d174d;}
+.badge-special{background:#fef3c7;color:#92400e;}
+.badge-quick{background:#d1fae5;color:#065f46;}
+
+.car-name{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(15px,4vw,18px);color:var(--text);margin-bottom:4px;}
+.car-info{font-size:11px;color:var(--soft);margin-bottom:12px;}
+
+.car-price-row{display:flex;gap:12px;margin-bottom:4px;}
+.car-price-item{flex:1;}
+.car-price-label{font-size:10px;color:var(--soft);margin-bottom:2px;}
+.car-price-val{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(13px,3.5vw,15px);color:var(--ocean);}
+
+.car-emoji{
+  position:absolute;bottom:12px;right:14px;
+  font-size:clamp(28px,8vw,36px);opacity:.18;
+}
+
+/* ══════════════════════════════════
+   절차 스텝
+══════════════════════════════════ */
+.steps{display:flex;flex-direction:column;gap:0;}
+.step-item{display:flex;gap:14px;position:relative;}
+.step-item:not(:last-child)::before{
+  content:'';position:absolute;
+  left:17px;top:36px;
+  width:2px;height:calc(100% - 10px);
+  background:linear-gradient(to bottom,var(--sky-deep),transparent);
+}
+.step-num{
+  width:36px;height:36px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--sky-deep),var(--ocean));
+  color:#fff;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;
+  box-shadow:0 3px 10px rgba(14,165,233,.35);
+  margin-top:2px;
+}
+.step-body{padding-bottom:24px;flex:1;}
+.step-title{font-weight:700;font-size:15px;color:var(--text);margin-bottom:4px;}
+.step-desc{font-size:13px;color:var(--soft);line-height:1.65;}
+.step-highlight{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:6px;padding:6px 12px;
+  background:rgba(14,165,233,.1);border-radius:99px;
+  font-size:12px;font-weight:700;color:var(--ocean);
+}
+.step-note{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:5px;padding:5px 10px;
+  background:rgba(251,191,36,.15);border-radius:99px;
+  font-size:11px;font-weight:600;color:#92400e;
+}
+
+/* ══════════════════════════════════
+   상담 폼 섹션
+══════════════════════════════════ */
+.form-section{padding:10px 0 100px;}
+.form-hero{
+  text-align:center;margin-bottom:24px;
+}
+.form-hero h2{
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:clamp(19px,5vw,24px);color:var(--ocean);
+  line-height:1.3;
+}
+.form-hero p{font-size:13px;color:var(--soft);margin-top:6px;}
+
+/* 카드 */
+.fcard{
+  background:var(--card);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-radius:var(--r-xl);
+  padding:clamp(18px,5vw,26px) clamp(16px,4.5vw,22px);
+  margin-bottom:14px;
+  box-shadow:0 6px 28px rgba(3,105,161,.11);
+  border:1.5px solid rgba(186,230,253,.55);
+}
+.fcard-title{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;
+  color:var(--ocean);margin-bottom:18px;
+}
+.fdot{
+  width:24px;height:24px;
+  background:linear-gradient(135deg,var(--sky-deep),var(--ocean));
+  color:#fff;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;flex-shrink:0;
+  box-shadow:0 3px 8px rgba(3,105,161,.3);
+}
+.field{margin-bottom:14px;}
+.field:last-child{margin-bottom:0;}
+.flabel{display:block;font-size:12px;font-weight:700;color:var(--soft);margin-bottom:6px;}
+.flabel .req{color:var(--coral);margin-left:2px;}
+
+input[type="text"],input[type="number"],input[type="tel"],select,textarea{
+  width:100%;min-height:var(--touch);padding:13px 16px;
+  border:2px solid var(--border);border-radius:var(--r-md);
+  font-size:16px;font-family:'Noto Sans KR',sans-serif;
+  color:var(--text);background:rgba(255,255,255,.92);
+  transition:border-color .2s,box-shadow .2s;
+  outline:none;appearance:none;-webkit-appearance:none;
+  -webkit-tap-highlight-color:transparent;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--sky-deep);
+  box-shadow:0 0 0 3px rgba(14,165,233,.14);
+  background:#fff;
+}
+input::placeholder,textarea::placeholder{color:#94a3b8;font-size:14px;}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230ea5e9' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:42px;cursor:pointer;
+}
+textarea{min-height:110px;resize:vertical;line-height:1.6;}
+
+/* 대여유형 버튼 */
+.type-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.type-btn{
+  min-height:var(--touch);padding:12px 8px;
+  border-radius:var(--r-md);border:2px solid var(--border);
+  background:rgba(255,255,255,.85);
+  font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:clamp(13px,3.8vw,15px);color:var(--soft);
+  cursor:pointer;transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.type-btn .ico{font-size:clamp(20px,5.5vw,24px);}
+.type-btn.active{
+  border-color:var(--sky-deep);
+  background:linear-gradient(135deg,var(--sky-deep),var(--ocean));
+  color:#fff;box-shadow:0 5px 18px rgba(14,165,233,.38);transform:translateY(-1px);
+}
+.type-btn:active{transform:scale(.96);}
+
+/* 기간 */
+.period-wrap{position:relative;}
+.period-wrap input{padding-right:54px;}
+.period-unit{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:700;color:var(--sky-deep);pointer-events:none;}
+
+/* 성별 */
+.gender-grp{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.glabel{position:relative;cursor:pointer;}
+.glabel input[type="radio"]{position:absolute;opacity:0;width:0;height:0;}
+.gbtn{
+  min-height:var(--touch);display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:12px;border-radius:var(--r-md);border:2px solid var(--border);
+  background:rgba(255,255,255,.85);font-size:clamp(13px,3.8vw,15px);font-weight:700;
+  color:var(--soft);transition:all .2s;-webkit-tap-highlight-color:transparent;
+}
+.glabel input:checked+.gbtn{
+  border-color:var(--sky-deep);
+  background:linear-gradient(135deg,var(--sky-deep),var(--ocean));
+  color:#fff;box-shadow:0 5px 18px rgba(14,165,233,.32);
+}
+
+/* 동의 체크박스 */
+.agree-label{display:block;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.agree-label input[type="checkbox"]{position:absolute;opacity:0;width:0;height:0;}
+.agree-box{
+  display:flex;flex-direction:column;
+  padding:14px 16px;
+  border:2px solid var(--border);border-radius:var(--r-md);
+  background:rgba(255,255,255,.85);
+  transition:border-color .2s,background .2s;
+}
+.agree-label input:checked + .agree-box{
+  border-color:var(--sky-deep);
+  background:rgba(14,165,233,.06);
+}
+.agree-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.agree-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;}
+.agree-title::before{
+  content:'';display:inline-block;width:20px;height:20px;flex-shrink:0;
+  border:2px solid var(--border);border-radius:6px;
+  background:#fff;transition:all .2s;
+}
+.agree-label input:checked + .agree-box .agree-title::before{
+  background:var(--sky-deep);border-color:var(--sky-deep);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;
+}
+.agree-toggle{
+  font-size:11px;font-weight:700;color:var(--sky-deep);
+  white-space:nowrap;flex-shrink:0;padding:3px 8px;
+  border:1px solid var(--border);border-radius:99px;
+  background:#fff;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.agree-detail{
+  display:none;
+  margin-top:10px;padding:12px 14px;
+  background:rgba(14,165,233,.06);border-radius:10px;
+  font-size:12px;color:var(--soft);line-height:1.8;
+  border:1px solid var(--border);
+}
+.agree-detail.open{display:block;}
+.err{font-size:12px;font-weight:600;color:var(--coral);margin-top:4px;display:none;}
+
+/* 제출 버튼 */
+.submit-wrap{margin-top:6px;padding-bottom:env(safe-area-inset-bottom,0px);}
+.submit-btn{
+  width:100%;min-height:58px;border:none;border-radius:var(--r-lg);
+  background:linear-gradient(135deg,#fbbf24 0%,#fb7185 100%);
+  color:#fff;font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:clamp(15px,4vw,17px);cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .15s,opacity .15s;
+  box-shadow:0 7px 24px rgba(251,113,133,.42);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.submit-btn:active:not(:disabled){transform:scale(.97);opacity:.9;}
+.submit-btn:disabled{opacity:.62;cursor:not-allowed;}
+.submit-btn::after{
+  content:'';position:absolute;top:-50%;left:-60%;
+  width:40%;height:200%;background:rgba(255,255,255,.28);
+  transform:skewX(-20deg);animation:shine 3.5s ease 1.2s infinite;
+}
+@keyframes shine{0%,65%,100%{left:-60%}40%{left:130%}}
+
+/* 완료 */
+.success-box{
+  display:none;
+  background:linear-gradient(135deg,#dcfce7,#d1fae5);
+  border:2px solid var(--mint);border-radius:var(--r-xl);
+  padding:clamp(28px,8vw,44px) clamp(20px,6vw,32px);
+  text-align:center;animation:bounceIn .45s ease both;
+  box-shadow:0 8px 28px rgba(52,211,153,.18);margin-bottom:16px;
+}
+.success-box .sico{font-size:clamp(48px,14vw,64px);margin-bottom:12px;}
+.success-box h2{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(19px,5vw,23px);color:#065f46;margin-bottom:8px;}
+.success-box p{font-size:clamp(13px,3.5vw,14px);color:#047857;line-height:1.75;}
+
+/* 스피너 */
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite;vertical-align:middle;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 애니메이션 */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounceIn{0%{transform:scale(.82);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+
+/* 구분선 */
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);margin:8px 0 32px;}
+
+/* 전화 버튼 */
+.tel-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:8px;padding:10px 18px;
+  background:rgba(14,165,233,.1);border:1.5px solid var(--border);
+  border-radius:99px;font-size:13px;font-weight:700;color:var(--ocean);
+  text-decoration:none;-webkit-tap-highlight-color:transparent;
+  transition:background .2s;
+}
+.tel-btn:active{background:rgba(14,165,233,.2);}
+
+/* 푸터 */
+.footer{text-align:center;padding:14px 0 8px;font-size:11px;color:rgba(3,105,161,.45);position:relative;z-index:1;}
+
+/* 반응형 */
+@media(max-width:360px){
+  .wrap{padding:0 12px;}
+  .car-grid{grid-template-columns:1fr;}
+}
+@media(min-width:600px){
+  .who-grid{grid-template-columns:1fr 1fr;}
+  .type-btn:hover{border-color:var(--sky-deep);background:var(--foam);color:var(--ocean);transform:translateY(-2px);}
+}
+@supports(padding:max(0px)){
+  .wrap{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));}
+}
+</style>
+</head>
+<body>
+
+<!-- 파도 -->
+<div class="wave-wrap">
+  <div class="wave wave1"><svg viewBox="0 0 1440 65" preserveAspectRatio="none"><path d="M0,32 C240,60 480,4 720,32 C960,60 1200,4 1440,32 L1440,65 L0,65 Z" fill="rgba(56,189,248,0.3)"/></svg></div>
+  <div class="wave wave2"><svg viewBox="0 0 1440 65" preserveAspectRatio="none"><path d="M0,42 C360,8 720,65 1080,26 C1260,6 1380,52 1440,42 L1440,65 L0,65 Z" fill="rgba(14,165,233,0.2)"/></svg></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ① 히어로 -->
+  <div class="hero">
+    <div class="hero-badge">☀️ PANGPANG RENT CAR</div>
+    <h1>팡팡렌트카<br/><span>장기 · 단기</span> 렌터카</h1>
+    <p>합리적인 가격과 믿을 수 있는 차량으로<br/>여러분의 이동을 책임집니다 🚗</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:22px;">
+      <a href="#form" class="hero-cta" style="margin-top:0;">📋 지금 상담 신청하기</a>
+      <a href="tel:010-4835-6635" class="hero-cta" style="margin-top:0;background:linear-gradient(135deg,#34d399,#059669);box-shadow:0 6px 20px rgba(5,150,105,.38);">📞 지금 바로 문의하기</a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ② 이런 분께 추천 -->
+  <div class="section">
+    <div class="section-label">💡 이런 점이 좋아요!</div>
+    <div class="section-sub">팡팡렌트카는 합리적인 가격 제안을 위해 노력해요</div>
+    <div class="section-label" style="font-size:14px;margin-bottom:12px;">나에게 맞는 상품은? <span style="font-size:13px;font-weight:400;color:var(--soft);">Who?</span></div>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-icon">👨‍👩‍👧‍👦</div><div class="who-text">가족들과 이용할 <strong>깨끗한 패밀리카</strong>가 필요해요</div></div>
+      <div class="who-card"><div class="who-icon">🤝</div><div class="who-text">바이어에게 <strong>임시로 제공할 차량</strong>을 찾고 있어요</div></div>
+      <div class="who-card"><div class="who-icon">🚀</div><div class="who-text">장기렌터카를 고민 중인데, <strong>한 번 이용해보고 싶어요</strong></div></div>
+      <div class="who-card"><div class="who-icon">💎</div><div class="who-text"><strong>합리적인 가격</strong>과 차량 퀄리티를 가심비로 이용하고 싶어요</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ③ 차량 라인업 -->
+  <div class="section">
+    <div class="section-label">🚗 차량 라인업 & 가격</div>
+    <div class="section-sub">주행거리별 합리적인 가격으로 제공합니다</div>
+    <div class="car-grid">
+
+      <div class="car-card">
+        <div class="car-badges"><span class="badge badge-std">경형</span></div>
+        <div class="car-name">경형 차량</div>
+        <div class="car-info">모닝 · 레이 · 캐스퍼 등</div>
+        <div class="car-price-row">
+          <div class="car-price-item">
+            <div class="car-price-label">월 렌트료</div>
+            <div class="car-price-val">40만원~</div>
+          </div>
+        </div>
+        <div class="car-emoji">🚙</div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-badges"><span class="badge badge-std">소형</span></div>
+        <div class="car-name">소형 차량</div>
+        <div class="car-info">아반떼 · 베뉴 · K3 등</div>
+        <div class="car-price-row">
+          <div class="car-price-item">
+            <div class="car-price-label">월 렌트료</div>
+            <div class="car-price-val">50만원~</div>
+          </div>
+        </div>
+        <div class="car-emoji">🚗</div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-badges"><span class="badge badge-prem">중형</span></div>
+        <div class="car-name">중형 차량</div>
+        <div class="car-info">쏘나타 · K5 · SM6 등</div>
+        <div class="car-price-row">
+          <div class="car-price-item">
+            <div class="car-price-label">월 렌트료</div>
+            <div class="car-price-val">60만원~</div>
+          </div>
+        </div>
+        <div class="car-emoji">🏆</div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-badges"><span class="badge badge-quick">소형 SUV</span></div>
+        <div class="car-name">소형 SUV</div>
+        <div class="car-info">투싼 · 스포티지 · 셀토스 등</div>
+        <div class="car-price-row">
+          <div class="car-price-item">
+            <div class="car-price-label">월 렌트료</div>
+            <div class="car-price-val">60만원~</div>
+          </div>
+        </div>
+        <div class="car-emoji">🚐</div>
+      </div>
+
+    </div>
+    <div style="margin-top:12px;padding:12px 16px;background:rgba(14,165,233,0.08);border-radius:12px;border:1px solid var(--border);font-size:12px;color:var(--soft);line-height:1.7;">
+      💡 <strong style="color:var(--ocean);">정확한 가격은 상담 후 안내드립니다.</strong><br/>차량 상태·연식·대여 기간에 따라 가격이 달라질 수 있어요.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ④ 대여 절차 -->
+  <div class="section">
+    <div class="section-label">📋 대여 절차 안내</div>
+    <div class="section-sub">간단한 5단계로 차량을 인도받으세요</div>
+    <div class="steps">
+
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">상담 신청</div>
+          <div class="step-desc">아래 양식을 작성해 상담을 신청해주세요.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">견적 상담 신청</div>
+          <div class="step-desc">차량 예약 또는 고객센터를 통해 상담을 요청하세요.</div>
+          <a href="tel:062-973-6636" class="tel-btn">📞 고객센터 062-973-6636</a>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">견적 상담</div>
+          <div class="step-desc">원하는 차량에 대한 개별 상담을 통해 계약 가능 여부를 확인하세요.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">계약 완료</div>
+          <div class="step-desc">계약이 결정되면 구비서류를 챙겨 계약을 완료하세요.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">차량 인도</div>
+          <div class="step-desc">계약 완료 시 차량 탁송 또는 방문을 통해 차량을 인도해 드려요.</div>
+          <div class="step-note">⚠️ 거리에 따라 추가요금이 발생할 수 있어요</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ⑤ 상담 신청 폼 -->
+  <div class="form-section" id="form">
+    <div class="form-hero">
+      <h2>🚗 지금 바로<br/>상담 신청하세요!</h2>
+      <p>작성 후 담당자가 빠르게 연락드립니다</p>
+    </div>
+
+    <div class="success-box" id="successBox">
+      <div class="sico">🎉</div>
+      <h2>예약 접수 완료!</h2>
+      <p>상담 신청이 성공적으로 접수되었습니다.<br/>담당자가 빠른 시간 내에 연락드릴게요. 😊</p>
+    </div>
+
+    <form id="rentalForm" novalidate>
+
+      <div class="fcard">
+        <div class="fcard-title"><div class="fdot">1</div>대여 정보</div>
+
+        <div class="field">
+          <span class="flabel">대여 유형 <span class="req">*</span></span>
+          <div class="type-btns">
+            <button type="button" class="type-btn active" id="btnShort" onclick="setType('단기대여')">
+              <span class="ico">🏖️</span>단기대여
+            </button>
+            <button type="button" class="type-btn" id="btnLong" onclick="setType('장기대여')">
+              <span class="ico">📅</span>장기대여
+            </button>
+          </div>
+          <input type="hidden" id="rentalType" value="단기대여"/>
+        </div>
+
+        <div class="field">
+          <label class="flabel" for="rentalPeriod">대여 기간 <span class="req">*</span></label>
+          <div class="period-wrap">
+            <input type="number" id="rentalPeriod" inputmode="numeric" pattern="[0-9]*" min="1" placeholder="숫자만 입력"/>
+            <span class="period-unit" id="periodUnit">일</span>
+          </div>
+          <div class="err" id="errPeriod">대여 기간을 입력해주세요.</div>
+        </div>
+
+        <div class="field">
+          <label class="flabel" for="rentalRegion">대여 지역 <span class="req">*</span></label>
+          <select id="rentalRegion">
+            <option value="">-- 지역을 선택해주세요 --</option>
+            <option>광주본점</option><option>장성</option><option>나주</option>
+            <option>담양</option><option>화순</option><option>함평</option>
+            <option>영광</option><option>기타</option>
+          </select>
+          <div class="err" id="errRegion">지역을 선택해주세요.</div>
+        </div>
+
+        <div class="field">
+          <label class="flabel" for="budget">예산 규모 <span class="req">*</span></label>
+          <input type="number" id="budget" inputmode="numeric" pattern="[0-9]*" min="0" placeholder="예: 500000" oninput="budgetHint()"/>
+          <div class="hint" id="budgetHint"></div>
+          <div class="err" id="errBudget">예산을 입력해주세요.</div>
+        </div>
+      </div>
+
+      <div class="fcard">
+        <div class="fcard-title"><div class="fdot">2</div>개인 정보</div>
+
+        <div class="field">
+          <label class="flabel" for="name">성함 <span class="req">*</span></label>
+          <input type="text" id="name" maxlength="20" placeholder="홍길동" autocomplete="name"/>
+          <div class="err" id="errName">성함을 입력해주세요.</div>
+        </div>
+
+        <div class="field">
+          <label class="flabel" for="phone">연락처 <span class="req">*</span></label>
+          <input type="tel" id="phone" maxlength="13" placeholder="010-0000-0000" inputmode="tel" autocomplete="tel" oninput="fmtPhone(this)"/>
+          <div class="err" id="errPhone">올바른 연락처를 입력해주세요. (010-XXXX-XXXX)</div>
+        </div>
+
+        <div class="field">
+          <span class="flabel">성별 <span class="req">*</span></span>
+          <div class="gender-grp">
+            <label class="glabel"><input type="radio" name="gender" value="남성"/><div class="gbtn">👨 남성</div></label>
+            <label class="glabel"><input type="radio" name="gender" value="여성"/><div class="gbtn">👩 여성</div></label>
+          </div>
+          <div class="err" id="errGender">성별을 선택해주세요.</div>
+        </div>
+
+        <div class="field">
+          <label class="flabel" for="birthdate">생년월일 <span class="req">*</span></label>
+          <input type="text" id="birthdate" maxlength="8" placeholder="19900101 (8자리)" inputmode="numeric" pattern="[0-9]*" oninput="numOnly(this)"/>
+          <div class="err" id="errBirth">생년월일 8자리를 정확히 입력해주세요.</div>
+        </div>
+      </div>
+
+      <div class="fcard">
+        <div class="fcard-title"><div class="fdot">3</div>팡팡렌트카에 한마디 💬</div>
+        <div class="field">
+          <label class="flabel" for="userMsg">궁금한 점, 요청사항을 자유롭게 남겨주세요 <span style="color:#94a3b8;font-weight:500;">(선택)</span></label>
+          <textarea id="userMsg" maxlength="300" placeholder="예) 경차 위주로 알아보고 있어요. 보험 관련해서도 상담 부탁드려요 😊" oninput="msgCount(this)"></textarea>
+          <div style="text-align:right;font-size:11px;color:#94a3b8;margin-top:4px;"><span id="msgCnt">0</span>/300자</div>
+        </div>
+      </div>
+
+      <div class="fcard">
+        <div class="fcard-title"><div class="fdot">4</div>약관 동의</div>
+
+        <!-- 개인정보 동의 (필수) -->
+        <div class="field">
+          <label class="agree-label" id="agreePrivacyLabel">
+            <input type="checkbox" id="agreePrivacy" />
+            <div class="agree-box">
+              <div class="agree-top">
+                <span class="agree-title">[필수] 개인정보 수집 및 이용 동의</span>
+                <span class="agree-toggle" onclick="toggleDetail('privacyDetail', this)">내용보기 ▼</span>
+              </div>
+            </div>
+          </label>
+          <div class="agree-detail" id="privacyDetail">
+            <strong>수집 항목</strong> : 성함, 연락처, 성별, 생년월일, 대여 정보<br/>
+            <strong>수집 목적</strong> : 렌터카 상담 및 예약 접수, 고객 응대<br/>
+            <strong>보유 기간</strong> : 상담 완료 후 1년<br/>
+            <br/>위 개인정보 수집·이용에 동의하지 않으실 수 있으나, 동의 거부 시 상담 서비스 이용이 제한됩니다.
+          </div>
+          <div class="err" id="errPrivacy">개인정보 수집 및 이용에 동의해주세요.</div>
+        </div>
+
+        <!-- 마케팅 동의 (선택) -->
+        <div class="field" style="margin-bottom:0;">
+          <label class="agree-label">
+            <input type="checkbox" id="agreeMarketing" />
+            <div class="agree-box">
+              <div class="agree-top">
+                <span class="agree-title">[선택] 마케팅 정보 수신 동의</span>
+                <span class="agree-toggle" onclick="toggleDetail('marketingDetail', this)">내용보기 ▼</span>
+              </div>
+            </div>
+          </label>
+          <div class="agree-detail" id="marketingDetail">
+            <strong>수집 항목</strong> : 성함, 연락처<br/>
+            <strong>활용 목적</strong> : 신규 차량 안내, 할인 이벤트 및 프로모션 문자·전화 발송<br/>
+            <strong>보유 기간</strong> : 동의 철회 시까지<br/>
+            <br/>동의하지 않으셔도 상담 서비스 이용에 불이익이 없습니다.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span>🚗</span><span id="btnText">예약 신청 완료</span>
+        </button>
+      </div>
+
+    </form>
+    <div class="footer">
+      <div style="max-width:540px;margin:0 auto;padding:24px 0 40px;border-top:1px solid rgba(3,105,161,0.12);margin-top:8px;">
+        <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;color:var(--ocean);margin-bottom:10px;">
+          🚗 팡팡렌트카 <span style="font-size:11px;font-weight:700;color:var(--soft);">PangPang Rent-a-car</span>
+        </div>
+        <div style="font-size:11px;color:var(--soft);line-height:2;text-align:left;">
+          <div>대표자 : 정한영</div>
+          <div>사업자등록번호 : 803-81-00790</div>
+          <div>통신판매업 신고번호 : 제 2017-광주광산-00652호</div>
+          <div>주소 : 광주광역시 광산구 첨단중앙로124번길17 2층 팡팡렌트카</div>
+          <div>전화 : <a href="tel:010-4835-6635" style="color:var(--sky-deep);text-decoration:none;">010-4835-6635</a> &nbsp;|&nbsp; <a href="tel:062-973-6635" style="color:var(--sky-deep);text-decoration:none;">062-973-6635</a></div>
+          <div>개인정보관리책임자 : 정한영</div>
+        </div>
+        <div style="margin-top:12px;font-size:10px;color:rgba(3,105,161,0.4);">
+          © 2017 팡팡렌트카. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzsNRvT1XHpNUKltdaavQVC5vwTeYfij4tqCQBhUhtepSrdYTZ6CbGoy-ivZbWLmbp6/exec';
+
+function toggleDetail(id, btn){
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+  btn.textContent = el.classList.contains('open') ? '닫기 ▲' : '내용보기 ▼';
+}
+function setType(t){
+  document.getElementById('rentalType').value=t;
+  document.getElementById('periodUnit').textContent=t==='단기대여'?'일':'개월';
+  document.getElementById('rentalPeriod').placeholder=t==='단기대여'?'예: 3':'예: 12';
+  document.getElementById('btnShort').classList.toggle('active',t==='단기대여');
+  document.getElementById('btnLong').classList.toggle('active',t==='장기대여');
+}
+function fmtPhone(el){
+  let v=el.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>7) el.value=v.slice(0,3)+'-'+v.slice(3,7)+'-'+v.slice(7);
+  else if(v.length>3) el.value=v.slice(0,3)+'-'+v.slice(3);
+  else el.value=v;
+}
+function numOnly(el){el.value=el.value.replace(/\D/g,'');}
+function budgetHint(){
+  const v=Number(document.getElementById('budget').value);
+  document.getElementById('budgetHint').textContent=v>0?'💰 '+v.toLocaleString()+'원':'';
+}
+function msgCount(el){document.getElementById('msgCnt').textContent=el.value.length;}
+
+function validate(){
+  let ok=true;
+  function chk(id,eid,cond){
+    const e=document.getElementById(eid);
+    if(!cond){e.style.display='block';if(ok){const el=document.getElementById(id);if(el)el.focus();ok=false;}}
+    else e.style.display='none';
+  }
+  chk('rentalPeriod','errPeriod',document.getElementById('rentalPeriod').value.trim()&&Number(document.getElementById('rentalPeriod').value)>=1);
+  chk('rentalRegion','errRegion',document.getElementById('rentalRegion').value!=='');
+  chk('budget','errBudget',document.getElementById('budget').value.trim()!=='');
+  chk('name','errName',document.getElementById('name').value.trim().length>=1);
+  chk('phone','errPhone',/^010-\d{4}-\d{4}$/.test(document.getElementById('phone').value.trim()));
+  const g=document.querySelector('input[name="gender"]:checked');
+  const ge=document.getElementById('errGender');
+  if(!g){ge.style.display='block';ok=false;}else ge.style.display='none';
+  chk('birthdate','errBirth',/^\d{8}$/.test(document.getElementById('birthdate').value.trim()));
+  const privacy = document.getElementById('agreePrivacy').checked;
+  const pe = document.getElementById('errPrivacy');
+  if(!privacy){pe.style.display='block';ok=false;}else pe.style.display='none';
+  return ok;
+}
+
+document.getElementById('rentalForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  if(!validate())return;
+  const btn=document.getElementById('submitBtn');
+  const btnText=document.getElementById('btnText');
+  btn.disabled=true;
+  btnText.innerHTML='<span class="spinner"></span> 처리 중...';
+  const data={
+    rentalType:document.getElementById('rentalType').value,
+    rentalPeriod:document.getElementById('rentalPeriod').value,
+    rentalRegion:document.getElementById('rentalRegion').value,
+    budget:document.getElementById('budget').value,
+    name:document.getElementById('name').value.trim(),
+    phone:document.getElementById('phone').value.trim(),
+    gender:document.querySelector('input[name="gender"]:checked').value,
+    birthdate:document.getElementById('birthdate').value.trim(),
+    userMsg:document.getElementById('userMsg').value.trim(),
+    agreeMarketing:document.getElementById('agreeMarketing').checked?'동의':'미동의'
+  };
+  fetch(GAS_URL,{method:'POST',body:JSON.stringify(data)})
+  .then(r=>r.json())
+  .then(function(res){
+    if(res.success){
+      document.getElementById('rentalForm').style.display='none';
+      document.getElementById('successBox').style.display='block';
+      window.scrollTo({top:document.getElementById('form').offsetTop,behavior:'smooth'});
+    }else{
+      alert('오류: '+res.message);
+      btn.disabled=false;
+      btnText.innerHTML='🚗 예약 신청 완료';
+    }
+  })
+  .catch(function(err){
+    alert('전송 오류: '+err.message);
+    btn.disabled=false;
+    btnText.innerHTML='🚗 예약 신청 완료';
+  });
+});
+</script>
+</body>
+</html>
