@@ -1020,46 +1020,67 @@ function genContract(){
     +"<span style='font-size:11px;color:#94a3b8;'>_____ \ub144 &nbsp; _____ \uc6d4 &nbsp; _____ \uc77c</span>"
     +"</div></div></div></div>";
 
- // [1] 특약 사항 10조 (제시하신 내용 반영)
+// [1] 특약 사항 (제1조 ~ 제10조 상세 버전)
   var termsHtml = "<div style='margin-bottom:20px;'>" + secTitleHtml("임대차 계약 특약 사항") 
-    + "<div style='background:#fff; border:1px solid #cbd5e1; border-radius:8px; padding:12px; font-size:11px; color:#1e293b; line-height:1.7;'>"
-    + "<b>제1조 (임대료 미납)</b> 기일 내 미납 시 연 20% 지연손해금 가산 및 3일 지연 시 즉시 계약 해지 가능.<br>"
-    + "<b>제2조 (보험 제한)</b> 임대료 미납 중 발생한 사고는 보험 처리가 불가하며 임차인이 전액 부담함.<br>"
-    + "<b>제3조 (중도 해지)</b> 중도 해지 시 잔여 임대료 총액의 20%를 위약금으로 납부함.<br>"
-    + "<b>제4조 (원상 복구)</b> 파손, 오염, 개조 시 복구 비용 및 차량 감가상각비를 임차인이 부담함.<br>"
-    + "<b>제5조 (주행 제한)</b> 월 약정 <b>" + km + "</b> 초과 시 1km당 200원 별도 납부.<br>"
-    + "<b>제6조 (금연 의무)</b> 실내 흡연 시 클리닝 비용 청구 및 GPS 조작/탈거 금지.<br>"
-    + "<b>제7조 (사고 처리)</b> 면책금 및 휴차보상료(80%) 부담하며 즉시 통보 의무가 있음.<br>"
-    + "<b>제8조 (관리 소홀)</b> 혼유, 타이어 파손, 침수 등 관리 소홀 파손은 임차인이 전액 부담.<br>"
-    + "<b>제9조 (면책 제외)</b> 음주, 무면허, 제3자 운전 사고는 보험 적용 불가.<br>"
-    + "<b>제10조 (관할 법원)</b> 본 계약 관련 분쟁은 <b>광주지방법원</b>을 관할로 함.</div></div>";
-
-  // [2] 개인정보 상세 동의서 (마지막 위치)
-  var privacyHtml = "<div style='margin-bottom:20px;'>" + secTitleHtml("개인정보 수집·이용 및 제3자 제공 동의")
-    + "<div style='background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; font-size:10px; color:#475569; line-height:1.5;'>"
-    + "<b>팡팡렌트카</b>는 서비스 제공을 위해 성명, 연락처, 면허정보, 위치정보(GPS) 등을 수집하며, 사고 처리 및 계약 이행을 위해 활용합니다. (보유기간: 5년)<br><br>"
-    + "<div style='text-align:center;'>위 내용을 확인하였으며 이에 동의합니다. &nbsp;&nbsp; □ 동의함</div></div></div>";
-
-  // [3] 서명란 (팡팡렌트카 오타 수정)
-  var signGrid = "<div style='margin-top:20px; padding-top:15px; border-top:1px dashed #cbd5e1;'>"
-    + "<div style='display:grid; grid-template-columns:1fr 1fr; gap:15px;'>"
-    + "<div style='border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:center;'>"
-    + "임대인 (갑)<br><br><b>팡팡렌트카</b><br>대표이사 정한영 " + stampHtml() + "</div>"
-    + "<div style='border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:center;'>"
-    + "임차인 (을) 서명<br><br><b>" + name + "</b> (인)<br><br><span style='font-size:10px;color:#94a3b8;'>____년 ____월 ____일</span></div>"
+    + "<div style='background:#fff; border:1.5px solid #cbd5e1; border-radius:8px; padding:15px; font-size:11px; color:#1e293b; line-height:1.8;'>"
+    + "<strong>제1조 (임대료 납부 및 미납 시 계약 해지)</strong><br>"
+    + "1. 임차인은 임대료를 정해진 기일에 선불로 입금해야 하며, 지체 시 미납 금액에 대해 연 20%의 지연손해금을 가산한다.<br>"
+    + "2. 임대료 입금이 3일 이상 지연되거나, 미납 상태에서 24시간 이상 연락이 두절될 경우 임대인은 별도의 독촉 없이 즉시 계약을 해지할 수 있다.<br>"
+    + "3. 계약 해지 후 차량 반납이 지체될 경우 임대인은 임의로 차량을 회수할 수 있으며, 이에 따른 모든 비용(견인, 인건비 등)은 임차인이 부담한다.<br><br>"
+    + "<strong>제2조 (임대료 미납 시 보험 적용 제한)</strong><br>"
+    + "임차인이 임대료를 기한 내에 입금하지 않은 상태에서 발생한 사고에 대하여, 임대인은 보험 처리 의무를 지지 않는다. 이 경우 발생하는 모든 민형사상 책임 및 사고 처리 비용은 임차인이 전액 부담한다.<br><br>"
+    + "<strong>제3조 (중도 해지 위약금)</strong><br>"
+    + "임차인의 사정으로 본 계약을 중도 해지할 경우, 임차인은 임대인에게 잔여 기간 임대료 총액의 20%를 중도해지 위약금으로 지급해야 한다.<br><br>"
+    + "<strong>제4조 (차량 원상복구 의무)</strong><br>"
+    + "1. 임차인은 차량 반납 시 대여 당시의 상태로 원상복구하여 반납해야 한다.<br>"
+    + "2. 통상적인 마모를 제외한 파손, 실내 오염, 불법 개조 등이 확인될 경우 복구 비용은 임차인이 부담하며, 차량 가치가 현저히 하락한 경우 별도의 감가상각 보상금을 청구할 수 있다.<br><br>"
+    + "<strong>제5조 (월간 주행거리 제한)</strong><br>"
+    + "본 계약의 월간 약정 주행거리는 <strong>" + km + "</strong>로 제한하며, 초과 주행 시 1km당 200원의 요금을 별도로 납부한다.<br><br>"
+    + "<strong>제6조 (차량 관리 및 금연 의무)</strong><br>"
+    + "차량 내 전면 금연(전자담배 포함)하며, 위반 시 실내 클리닝 비용 및 휴차보상료를 청구한다. 또한 GPS 등 차량 관리 장치를 임의로 조작하거나 탈거할 수 없다.<br><br>"
+    + "<strong>제7조 (사고 시 면책금 및 통보 의무)</strong><br>"
+    + "사고 발생 시 임차인은 정해진 자차면책금과 수리 기간 동안의 휴차보상료(표준 대여 요금의 80%)를 별도로 부담한다. 사고 발생 시 지체 없이 담당자에게 통보해야 하며, 사고 은폐 및 통보 지연으로 인한 손해는 임차인이 전액 배상한다.<br><br>"
+    + "<strong>제8조 (임차인 과실 파손)</strong><br>"
+    + "혼유 사고, 요소수 미보충, 타이어 파손, 침수 지역 주행 등 임차인의 관리 소홀로 발생한 파손은 보험 적용 여부와 관계없이 임차인이 실비 전액을 부담한다.<br><br>"
+    + "<strong>제9조 (보험 면책 제외 사유)</strong><br>"
+    + "지정 운전자 외 제3자 운전, 음주운전, 무면허 운전, 약물 복용 후 운전 시 발생하는 사고는 보험 혜택을 받을 수 없으며, 즉시 계약 해지 사유가 된다.<br><br>"
+    + "<strong>제10조 (도달 간주 및 관할 법원)</strong><br>"
+    + "연락처 변경 미고지 시 기존 주소로 발송된 통지서는 3일 후 도달한 것으로 간주한다. 본 계약 관련 분쟁의 관할 법원은 <strong>광주지방법원</strong>으로 한다."
     + "</div></div>";
 
-  // [4] 최종 화면 그리기
+  // [2] 개인정보 수집·이용 및 제3자 제공 동의 (상세 보강 버전)
+  var privacyHtml = "<div style='margin-bottom:20px;'>" + secTitleHtml("개인정보 수집·이용 및 제3자 제공 동의")
+    + "<div style='background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:15px; font-size:10.5px; color:#475569; line-height:1.7;'>"
+    + "<strong>1. 개인정보 수집 및 이용 동의</strong><br>"
+    + "• 수집항목: 성명, 생년월일, 주소, 연락처, 운전면허정보, 위치정보(GPS)<br>"
+    + "• 이용목적: 계약 이행, 운전자격 확인, 사고 처리, 차량 미반납 시 위치 확인<br>"
+    + "• 보유기간: <strong>계약 종료 후 5년 보관</strong><br><br>"
+    + "<strong>2. 고유식별정보 및 제3자 제공</strong><br>"
+    + "• 고유식별정보 처리: 과태료 체납 및 계약 불이행 시 관련 법령에 의거하여 고유식별정보(주민등록번호 등)를 처리할 수 있습니다.<br>"
+    + "• 제3자 제공: 경찰청(범칙금), 보험사(사고처리), 긴급출동 서비스 등<br><br>"
+    + "<div style='text-align:center; font-weight:700; color:#1e293b; border-top:1px solid #cbd5e1; padding-top:10px;'>"
+    + "본인은 위 내용을 충분히 설명 듣고 동의함에 서명합니다.<br><br>"
+    + "□ 동의함 &nbsp;&nbsp;&nbsp;&nbsp; □ 동의하지 않음"
+    + "</div></div></div>";
+
+  // [3] 서명란 (팡팡렌트카 오타 수정본)
+  var signGrid = "<div style='margin-top:20px; padding-top:15px; border-top:1px dashed #cbd5e1;'>"
+    + "<div style='display:grid; grid-template-columns:1fr 1fr; gap:15px;'>"
+    + "<div style='border:1px solid #e2e8f0; border-radius:8px; padding:15px; text-align:center;'>"
+    + "임대인 (갑)<br><br><strong>팡팡렌트카</strong><br>대표이사 정한영 " + stampHtml() + "</div>"
+    + "<div style='border:1px solid #e2e8f0; border-radius:8px; padding:15px; text-align:center;'>"
+    + "임차인 (을) 서명<br><br><strong>" + name + "</strong> (인)<br><br><span style='font-size:11px;color:#94a3b8;'>____년 ____월 ____일</span></div>"
+    + "</div></div>";
+
+  // [4] 최종 조립 출력
   var el = document.getElementById("contractContent");
   if(el) el.innerHTML = hdrHtml("임대차 계약서", gn("CT"), today)
     + "<div style='margin-bottom:20px;'>" + secTitleHtml("계약 당사자") + "<table style='"+tblStyle()+"'>"
     + "<tr><th style='"+thStyle()+"'>임대인 (갑)</th><td style='"+tdStyle()+"'><strong>팡팡렌트카</strong> 대표이사 정한영</td></tr>"
     + "<tr><th style='"+thStyle()+"'>임차인 (을)</th><td style='"+tdStyle()+"'><strong>"+name+"</strong>"+(birth?" ("+birth+")":"")+"</td></tr>"
-    + "<tr><th style='"+thStyle()+"'>연락처</th><td style='"+tdStyle()+"'>"+phone+"</td></tr>"
-    + "</table></div>"
+    + "<tr><th style='"+thStyle()+"'>연락처</th><td style='"+tdStyle()+"'>"+phone+"</td></tr></table></div>"
     + "<div style='margin-bottom:20px;'>" + secTitleHtml("차량 및 계약 조건") + "<table style='"+tblStyle()+"'>"+cR+"</table></div>"
     + totBox + termsHtml + privacyHtml + signGrid + footHtml();
-
   var empty=document.getElementById("contractEmpty");
   var doc=document.getElementById("contractDoc");
   if(empty) empty.style.display="none";
