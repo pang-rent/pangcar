@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>팡팡렌트카 관리자</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer></script>
 <style>
 
 :root {
@@ -478,16 +478,16 @@ body > *:not(#adminScreen) { display:none !important; }
 <label>차종 등급</label>
 <select id="q_grade" onchange="autoCalcPrice('q')">
 <option value="">선택</option>
-<option value="경형">경형 (모닝·레이·캐스퍼)</option>
-<option value="소형">소형 (아반떼·K3·베뉴)</option>
-<option value="중형">중형 (소나타·K5·SM6)</option>
-<option value="SUV">SUV (투싼·스포티지·셀토스)</option>
+<option value="경형">경형 (모닝·레이·캐스퍼) — 500,000원~</option>
+<option value="소형">소형 (아반떼·K3·베뉴) — 550,000원~</option>
+<option value="중형">중형 (소나타·K5·SM6) — 600,000원~</option>
+<option value="SUV">SUV (투싼·스포티지·셀토스) — 600,000원~</option>
 </select>
 </div>
 <div class="afield">
 <label>운전자 나이</label>
 <select id="q_age" onchange="autoCalcPrice('q')">
-<option value="21">만 21세 이상</option>
+<option value="21">만 21세 이상 (기본)</option>
 <option value="26">만 26세 이상 (-50,000원)</option>
 </select>
 </div>
@@ -585,13 +585,17 @@ body > *:not(#adminScreen) { display:none !important; }
 <div class="form-grid">
 <div class="afield"><label>고객명 *</label><input type="text" id="c_name" placeholder="홍길동"/></div>
 <div class="afield"><label>연락처 *</label><input type="tel" id="c_phone" placeholder="010-0000-0000" oninput="fmtTel(this)"/></div>
-<div class="afield"><label>생년월일</label><input type="text" id="c_birth" placeholder="19900101" maxlength="8" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
-<div class="afield">
+<div class="afield"><label>주민번호</label><input type="text" id="c_birth" placeholder="000000-0000000" maxlength="14" oninput="fmtRRN(this)"/></div>
+<div class="afield" style="grid-column:1/-1;">
 <label>주소</label>
 <div class="addr-group">
-<input type="text" id="c_addr" placeholder="고객 주소" readonly/>
+<input type="text" id="c_addr" placeholder="기본주소 (검색 또는 직접 입력)"/>
 <button type="button" class="addr-btn" onclick="execPostcode()">검색</button>
 </div>
+</div>
+<div class="afield" style="grid-column:1/-1;">
+<label>나머지 주소</label>
+<input type="text" id="c_addr2" placeholder="동/호수, 상세주소 입력"/>
 </div>
 </div>
 </div>
@@ -612,11 +616,11 @@ body > *:not(#adminScreen) { display:none !important; }
           <div style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;">
             <div style="font-size:11px;font-weight:700;color:var(--sky);margin-bottom:10px;">⚡ 요금 자동계산</div>
             <div class="form-grid">
-              <div class="afield"><label>차종 등급</label><select id="c_grade" onchange="autoCalcPrice('c')"><option value="">선택</option><option value="경형">경형</option><option value="소형">소형</option><option value="중형">중형</option><option value="SUV">SUV</option></select></div>
-              <div class="afield"><label>운전자 나이</label><select id="c_age" onchange="autoCalcPrice('c')"><option value="21">만 21세 이상</option><option value="26">만 26세 이상</option></select></div>
-              <div class="afield"><label>약정 주행거리</label><select id="c_mileage_limit" onchange="autoCalcPrice('c')"><option value="0">월 2,000km</option><option value="1">월 3,000km</option><option value="2">월 4,000km</option><option value="3">월 5,000km</option></select></div>
-              <div class="afield"><label>자차</label><select id="c_own" onchange="autoCalcPrice('c')"><option value="0">미포함</option><option value="1">포함</option></select></div>
-              <div class="afield"><label>정비</label><select id="c_maint" onchange="autoCalcPrice('c')"><option value="0">미포함</option><option value="30000">포함(3만)</option><option value="50000">포함(5만)</option></select></div>
+              <div class="afield"><label>차종 등급</label><select id="c_grade" onchange="autoCalcPrice('c')"><option value="">선택</option><option value="경형">경형 (모닝·레이·캐스퍼) — 500,000원~</option><option value="소형">소형 (아반떼·K3·베뉴) — 550,000원~</option><option value="중형">중형 (소나타·K5·SM6) — 600,000원~</option><option value="SUV">SUV (투싼·스포티지·셀토스) — 600,000원~</option></select></div>
+              <div class="afield"><label>운전자 나이</label><select id="c_age" onchange="autoCalcPrice('c')"><option value="21">만 21세 이상 (기본)</option><option value="26">만 26세 이상 (-50,000원)</option></select></div>
+              <div class="afield"><label>약정 주행거리</label><select id="c_mileage_limit" onchange="autoCalcPrice('c')"><option value="0">월 2,000km (기본)</option><option value="1">월 3,000km (+50,000원)</option><option value="2">월 4,000km (+100,000원)</option><option value="3">월 5,000km (+150,000원)</option></select></div>
+              <div class="afield"><label>자차</label><select id="c_own" onchange="autoCalcPrice('c')"><option value="0">미포함</option><option value="1">포함 (+50,000원)</option></select></div>
+              <div class="afield"><label>정비</label><select id="c_maint" onchange="autoCalcPrice('c')"><option value="0">미포함</option><option value="30000">포함 (+30,000원)</option><option value="50000">포함 (+50,000원)</option></select></div>
             </div>
           </div>
 
@@ -703,11 +707,21 @@ var r=el.value.replace(/[^0-9]/g,"");
 el.value=r?Number(r).toLocaleString():"";
 }
 function execPostcode(){
+if(typeof daum === "undefined" || typeof daum.Postcode === "undefined"){
+alert("주소 검색 서비스를 불러오는 중입니다.\n잠시 후 다시 시도해주세요.");
+return;
+}
 new daum.Postcode({
 oncomplete:function(data){
 document.getElementById("c_addr").value=data.roadAddress||data.jibunAddress;
+document.getElementById("c_addr2").focus();
 }
 }).open();
+}
+function fmtRRN(el){
+var v=el.value.replace(/\D/g,"");
+if(v.length>6) el.value=v.slice(0,6)+"-"+v.slice(6,13);
+else el.value=v;
 }
 function clearForm(p){
 document.querySelectorAll("[id^='"+p+"_']").forEach(function(el){
@@ -786,7 +800,7 @@ return '<div style="display:flex;align-items:flex-start;justify-content:space-be
 +'<div><div style="font-family:Nunito,sans-serif;font-weight:900;font-size:22px;color:#0369a1;">팡팡\ub80c\ud2b8\uce74</div>'
 +'<div style="font-size:11px;color:#64748b;margin-top:2px;">PangPang Rent-a-car</div>'
 +'<div style="font-size:11px;color:#475569;margin-top:6px;line-height:1.8;">Tel : 062-973-6635 / 010-4835-6635<br>'
-+'\uad11\uc8fc\uad11\uc5ed\uc2dc \uad11\uc0b0\uad6c \ucca8\ub2e8\uc911\uc559\ub85c124\ubc88\uae3817 2\uceec<br>'
++'광주광역시 광산구 첨단중앙로124번길17 2층<br>'
 +'\uc0ac\uc5c5\uc790\ubc88\ud638 : 803-81-00790</div></div>'
 +'<div style="text-align:right;"><div style="font-family:Nunito,sans-serif;font-weight:900;font-size:28px;color:#0f172a;">'+type+'</div>'
 +'<div style="font-size:11px;color:#64748b;margin-top:3px;">No. '+num+'</div>'
@@ -968,6 +982,7 @@ var name=document.getElementById("c_name").value.trim();
 var phone=document.getElementById("c_phone").value.trim();
 var birth=document.getElementById("c_birth")?document.getElementById("c_birth").value.trim():"";
 var addr=document.getElementById("c_addr")?document.getElementById("c_addr").value.trim():"";
+var addr2=document.getElementById("c_addr2")?document.getElementById("c_addr2").value.trim():"";
 var model=document.getElementById("c_model").value.trim();
 var carnum=document.getElementById("c_carnum")?document.getElementById("c_carnum").value.trim():"";
 var year=document.getElementById("c_year")?document.getElementById("c_year").value.trim():"";
@@ -1052,7 +1067,7 @@ var termsHtml = "<div style='margin-bottom:20px;'>" + secTitleHtml("임대차 �
 var privacyHtml = "<div style='margin-bottom:20px;'>" + secTitleHtml("개인정보 수집·이용 및 제3자 제공 동의")
 + "<div style='background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:15px; font-size:10.5px; color:#475569; line-height:1.7;'>"
 + "<strong>1. 개인정보 수집 및 이용 동의</strong><br>"
-+ "• 수집항목: 성명, 생년월일, 주소, 연락처, 운전면허정보, 위치정보(GPS)<br>"
++ "• 수집항목: 성명, 주민등록번호, 주소, 연락처, 운전면허정보, 위치정보(GPS)<br>"
 + "• 이용목적: 계약 이행, 운전자격 확인, 사고 처리, 차량 미반납 시 위치 확인<br>"
 + "• 보유기간: <strong>계약 종료 후 5년 보관</strong><br><br>"
 + "<strong>2. 고유식별정보 및 제3자 제공</strong><br>"
@@ -1067,7 +1082,7 @@ var privacyHtml = "<div style='margin-bottom:20px;'>" + secTitleHtml("개인정�
 var signGrid = "<div style='margin-top:20px; padding-top:15px; border-top:1px dashed #cbd5e1;'>"
 + "<div style='display:grid; grid-template-columns:1fr 1fr; gap:15px;'>"
 + "<div style='border:1px solid #e2e8f0; border-radius:8px; padding:15px; text-align:center;'>"
-+ "임대인 (갑)<br><br><strong>팡팡렌트카</strong><br>대표이사 정한영 " + stampHtml() + "</div>"
++ "임대인 (갑)<br><br><strong>팡팡렌트카</strong><br><br>대표이사 정한영 (인)</div>"
 + "<div style='border:1px solid #e2e8f0; border-radius:8px; padding:15px; text-align:center;'>"
 + "임차인 (을) 서명<br><br><strong>" + name + "</strong> (인)<br><br><span style='font-size:11px;color:#94a3b8;'>____년 ____월 ____일</span></div>"
 + "</div></div>";
@@ -1077,9 +1092,18 @@ var el = document.getElementById("contractContent");
 if(el) el.innerHTML = hdrHtml("임대차 계약서", gn("CT"), today)
 + "<div style='margin-bottom:20px;'>" + secTitleHtml("계약 당사자") + "<table style='"+tblStyle()+"'>"
 + "<tr><th style='"+thStyle()+"'>임대인 (갑)</th><td style='"+tdStyle()+"'><strong>팡팡렌트카</strong> 대표이사 정한영</td></tr>"
-+ "<tr><th style='"+thStyle()+"'>임차인 (을)</th><td style='"+tdStyle()+"'><strong>"+name+"</strong>"+(birth?" ("+birth+")":"")+"</td></tr>"
-+ "<tr><th style='"+thStyle()+"'>연락처</th><td style='"+tdStyle()+"'>"+phone+"</td></tr></table></div>"
-+ "<div style='margin-bottom:20px;'>" + secTitleHtml("차량 및 계약 조건") + "<table style='"+tblStyle()+"'>"+cR+"</table></div>"
++ "<tr><th style='"+thStyle()+"'>임차인 (을)</th><td style='"+tdStyle()+"'><strong>"+name+"</strong>"+(birth?" / 주민번호 : "+birth:"")+"</td></tr>"
++ "<tr><th style='"+thStyle()+"'>연락처</th><td style='"+tdStyle()+"'>"+phone+"</td></tr>"
++ "<tr><th style='"+thStyle()+"'>주소</th><td style='"+tdStyle()+"'>"+(addr?addr+(addr2?" "+addr2:""):"-")+"</td></tr>"
++ "</table></div>"
++ "<div style='margin-bottom:20px;'>" + secTitleHtml("차량 정보") + "<table style='"+tblStyle()+"'>"
++ "<tr><th style='"+thStyle()+"'>차량모델</th><td style='"+tdStyle()+"'><strong>"+model+"</strong></td></tr>"
++ (carnum?"<tr><th style='"+thStyle()+"'>차량번호</th><td style='"+tdStyle()+"'>"+carnum+"</td></tr>":"")
++ (year?"<tr><th style='"+thStyle()+"'>연식</th><td style='"+tdStyle()+"'>"+year+"</td></tr>":"")
++ (color?"<tr><th style='"+thStyle()+"'>색상</th><td style='"+tdStyle()+"'>"+color+"</td></tr>":"")
++ (mileage?"<tr><th style='"+thStyle()+"'>주행거리</th><td style='"+tdStyle()+"'>"+mileage+"km</td></tr>":"")
++ "</table></div>"
++ "<div style='margin-bottom:20px;'>" + secTitleHtml("계약 조건") + "<table style='"+tblStyle()+"'>"+cR+"</table></div>"
 + totBox + termsHtml + privacyHtml + signGrid + footHtml();
 var empty=document.getElementById("contractEmpty");
 var doc=document.getElementById("contractDoc");
