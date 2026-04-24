@@ -1020,32 +1020,45 @@ function genContract(){
     +"<span style='font-size:11px;color:#94a3b8;'>_____ \ub144 &nbsp; _____ \uc6d4 &nbsp; _____ \uc77c</span>"
     +"</div></div></div></div>";
 
-  var el=document.getElementById("contractContent");
-  if(el) el.innerHTML=
-    hdrHtml("\uacc4&nbsp;\uc57d&nbsp;\uc11c",gn("CT"),today)
-    +"<div style='margin-bottom:20px;'>"+secTitleHtml("\uacc4\uc57d \ub2f9\uc0ac\uc790")+"<table style='"+tblStyle()+"'>"
-    +"<tr><th style='"+thStyle()+"'>\uc784\ub300\uc778 (\uac11)</th><td style='"+tdStyle()+"'><strong>팡팡렌트카</strong> \ub300\ud45c\uc774\uc0ac \uc815\ud55c\uc601</td></tr>"
-    +"<tr><th style='"+thStyle()+"'>\uc784\ucc28\uc778 (\uc744)</th><td style='"+tdStyle()+"'><strong>"+name+"</strong>"+(birth?" ("+birth+")":"")+"</td></tr>"
-    +"<tr><th style='"+thStyle()+"'>\uc5f0\ub77d\ucc98</th><td style='"+tdStyle()+"'>"+phone+"</td></tr>"
-    +(addr?"<tr><th style='"+thStyle()+"'>\uc8fc\uc18c</th><td style='"+tdStyle()+"'>"+addr+"</td></tr>":"")
-    +"</table></div>"
-    +"<div style='margin-bottom:20px;'>"+secTitleHtml("\ucc28\ub7c9 \uc815\ubcf4")+"<table style='"+tblStyle()+"'>"
-    +"<tr><th style='"+thStyle()+"'>\ucc28\ub7c9\ubaa8\ub378</th><td style='"+tdStyle()+"'><strong>"+model+"</strong></td></tr>"
-    +(carnum?"<tr><th style='"+thStyle()+"'>\ucc28\ub7c9\ubc88\ud638</th><td style='"+tdStyle()+"'>"+carnum+"</td></tr>":"")
-    +(year?"<tr><th style='"+thStyle()+"'>\uc5f0\uc2dd</th><td style='"+tdStyle()+"'>"+year+"</td></tr>":"")
-    +(color?"<tr><th style='"+thStyle()+"'>\uc0c9\uc0c1</th><td style='"+tdStyle()+"'>"+color+"</td></tr>":"")
-    +(mileage?"<tr><th style='"+thStyle()+"'>\uc8fc\ud589\uac70\ub9ac</th><td style='"+tdStyle()+"'>"+mileage+" km</td></tr>":"")
-    +"</table></div>"
-    +"<div style='margin-bottom:20px;'>"+secTitleHtml("\uacc4\uc57d \uc870\uac74")+"<table style='"+tblStyle()+"'>"+cR+"</table></div>"
-    +totBox
-    +"<div style='margin-bottom:20px;'>"+secTitleHtml("\uacc4\uc57d\uc0ac\ud56d")+"<div style='background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;font-size:12px;color:#1a1a1a;line-height:2.0;white-space:pre-line;'>"+note+"</div></div>"
-    +"<div style='margin-bottom:20px;'>"+secTitleHtml("\uac1c\uc778\uc815\ubcf4 \uc218\uc9d1 \ubc0f \uc774\uc6a9 \ub3d9\uc758")
-    +"<div style='background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;font-size:11px;color:#475569;line-height:1.9;'>"
-    +"<strong>\uc218\uc9d1\ud56d\ubaa9</strong> : \uc131\uba85, \uc5f0\ub77d\ucc98, \uc0dd\ub144\uc6d4\uc77c, \uc8fc\uc18c<br>"
-    +"<strong>\uc218\uc9d1\ubaa9\uc801</strong> : \ub80c\ud130\uce74 \uacc4\uc57d \uCCB4\uACB0 \uBC0F \uC774\uD589<br>"
-    +"<strong>\ubcf4\uc720\uae30\uac04</strong> : \uacc4\uc57d\uc885\ub8cc\ud6c4 5\ub144 &nbsp; <strong>\uc81c3\uc790\uc81c\uacf5</strong> : \uc5c6\uc74c<br><br>"
-    +"\uc704 \uac1c\uc778\uc815\ubcf4 \uc218\uc9d1 \ubc0f \uc774\uc6a9\uc5d0 &nbsp;&nbsp; &#9634; \ub3d9\uc758 &nbsp;&nbsp; &#9634; \ubbf8\ub3d9\uc758</div></div>"
-    +signGrid+footHtml();
+ // [1] 특약 사항 10조 (제시하신 내용 반영)
+  var termsHtml = "<div style='margin-bottom:20px;'>" + secTitleHtml("임대차 계약 특약 사항") 
+    + "<div style='background:#fff; border:1px solid #cbd5e1; border-radius:8px; padding:12px; font-size:11px; color:#1e293b; line-height:1.7;'>"
+    + "<b>제1조 (임대료 미납)</b> 기일 내 미납 시 연 20% 지연손해금 가산 및 3일 지연 시 즉시 계약 해지 가능.<br>"
+    + "<b>제2조 (보험 제한)</b> 임대료 미납 중 발생한 사고는 보험 처리가 불가하며 임차인이 전액 부담함.<br>"
+    + "<b>제3조 (중도 해지)</b> 중도 해지 시 잔여 임대료 총액의 20%를 위약금으로 납부함.<br>"
+    + "<b>제4조 (원상 복구)</b> 파손, 오염, 개조 시 복구 비용 및 차량 감가상각비를 임차인이 부담함.<br>"
+    + "<b>제5조 (주행 제한)</b> 월 약정 <b>" + km + "</b> 초과 시 1km당 200원 별도 납부.<br>"
+    + "<b>제6조 (금연 의무)</b> 실내 흡연 시 클리닝 비용 청구 및 GPS 조작/탈거 금지.<br>"
+    + "<b>제7조 (사고 처리)</b> 면책금 및 휴차보상료(80%) 부담하며 즉시 통보 의무가 있음.<br>"
+    + "<b>제8조 (관리 소홀)</b> 혼유, 타이어 파손, 침수 등 관리 소홀 파손은 임차인이 전액 부담.<br>"
+    + "<b>제9조 (면책 제외)</b> 음주, 무면허, 제3자 운전 사고는 보험 적용 불가.<br>"
+    + "<b>제10조 (관할 법원)</b> 본 계약 관련 분쟁은 <b>광주지방법원</b>을 관할로 함.</div></div>";
+
+  // [2] 개인정보 상세 동의서 (마지막 위치)
+  var privacyHtml = "<div style='margin-bottom:20px;'>" + secTitleHtml("개인정보 수집·이용 및 제3자 제공 동의")
+    + "<div style='background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; font-size:10px; color:#475569; line-height:1.5;'>"
+    + "<b>팡팡렌트카</b>는 서비스 제공을 위해 성명, 연락처, 면허정보, 위치정보(GPS) 등을 수집하며, 사고 처리 및 계약 이행을 위해 활용합니다. (보유기간: 5년)<br><br>"
+    + "<div style='text-align:center;'>위 내용을 확인하였으며 이에 동의합니다. &nbsp;&nbsp; □ 동의함</div></div></div>";
+
+  // [3] 서명란 (팡팡렌트카 오타 수정)
+  var signGrid = "<div style='margin-top:20px; padding-top:15px; border-top:1px dashed #cbd5e1;'>"
+    + "<div style='display:grid; grid-template-columns:1fr 1fr; gap:15px;'>"
+    + "<div style='border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:center;'>"
+    + "임대인 (갑)<br><br><b>팡팡렌트카</b><br>대표이사 정한영 " + stampHtml() + "</div>"
+    + "<div style='border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:center;'>"
+    + "임차인 (을) 서명<br><br><b>" + name + "</b> (인)<br><br><span style='font-size:10px;color:#94a3b8;'>____년 ____월 ____일</span></div>"
+    + "</div></div>";
+
+  // [4] 최종 화면 그리기
+  var el = document.getElementById("contractContent");
+  if(el) el.innerHTML = hdrHtml("임대차 계약서", gn("CT"), today)
+    + "<div style='margin-bottom:20px;'>" + secTitleHtml("계약 당사자") + "<table style='"+tblStyle()+"'>"
+    + "<tr><th style='"+thStyle()+"'>임대인 (갑)</th><td style='"+tdStyle()+"'><strong>팡팡렌트카</strong> 대표이사 정한영</td></tr>"
+    + "<tr><th style='"+thStyle()+"'>임차인 (을)</th><td style='"+tdStyle()+"'><strong>"+name+"</strong>"+(birth?" ("+birth+")":"")+"</td></tr>"
+    + "<tr><th style='"+thStyle()+"'>연락처</th><td style='"+tdStyle()+"'>"+phone+"</td></tr>"
+    + "</table></div>"
+    + "<div style='margin-bottom:20px;'>" + secTitleHtml("차량 및 계약 조건") + "<table style='"+tblStyle()+"'>"+cR+"</table></div>"
+    + totBox + termsHtml + privacyHtml + signGrid + footHtml();
 
   var empty=document.getElementById("contractEmpty");
   var doc=document.getElementById("contractDoc");
