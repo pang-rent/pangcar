@@ -469,56 +469,16 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--navy);color:var(--te
           </div>
         </div>
 
-       <div class="acard">
+    <div class="acard">
   <div class="acard-title">계약 조건</div>
-  <div style="background:var(--navy); border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:12px;">
-    <div style="font-size:11px; font-weight:700; color:var(--sky); margin-bottom:10px;">⚡ 요금 자동계산</div>
+  <div style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;">
+    <div style="font-size:11px;font-weight:700;color:var(--sky);margin-bottom:10px;">⚡ 요금 자동계산</div>
     <div class="form-grid">
-      <div class="afield">
-        <label>차종 등급</label>
-        <select id="c_grade" onchange="autoCalcPrice('c')">
-          <option value="">선택</option>
-          <option value="경형">경형 (모닝·레이·캐스퍼)</option>
-          <option value="소형">소형 (아반떼·K3·베뉴)</option>
-          <option value="중형">중형 (소나타·K5·SM6)</option>
-          <option value="SUV">SUV (투싼·스포티지·셀토스)</option>
-        </select>
-      </div>
-
-      <div class="afield">
-        <label>운전자 나이</label>
-        <select id="c_age" onchange="autoCalcPrice('c')">
-          <option value="21">만 21세 이상 (기본)</option>
-          <option value="26">만 26세 이상 (-50,000원)</option>
-        </select>
-      </div>
-
-      <div class="afield">
-        <label>약정 주행거리</label>
-        <select id="c_mileage_limit" onchange="autoCalcPrice('c')">
-          <option value="0">월 2,000km (기본)</option>
-          <option value="1">월 3,000km (+50,000원)</option>
-          <option value="2">월 4,000km (+100,000원)</option>
-          <option value="3">월 5,000km (+150,000원)</option>
-        </select>
-      </div>
-
-      <div class="afield">
-        <label>자차</label>
-        <select id="c_own" onchange="autoCalcPrice('c')">
-          <option value="0">미포함</option>
-          <option value="1">포함 (+50,000원)</option>
-        </select>
-      </div>
-
-      <div class="afield">
-        <label>정비</label>
-        <select id="c_maint" onchange="autoCalcPrice('c')">
-          <option value="0">미포함</option>
-          <option value="30000">포함 (+30,000원)</option>
-          <option value="50000">포함 (+50,000원)</option>
-        </select>
-      </div>
+      <div class="afield"><label>차종 등급</label><select id="c_grade" onchange="autoCalcPrice('c')"><option value="">선택</option><option value="경형">경형</option><option value="소형">소형</option><option value="중형">중형</option><option value="SUV">SUV</option></select></div>
+      <div class="afield"><label>운전자 나이</label><select id="c_age" onchange="autoCalcPrice('c')"><option value="21">만 21세 이상</option><option value="26">만 26세 이상</option></select></div>
+      <div class="afield"><label>약정 주행거리</label><select id="c_mileage_limit" onchange="autoCalcPrice('c')"><option value="0">월 2,000km</option><option value="1">월 3,000km</option><option value="2">월 4,000km</option><option value="3">월 5,000km</option></select></div>
+      <div class="afield"><label>자차</label><select id="c_own" onchange="autoCalcPrice('c')"><option value="0">미포함</option><option value="1">포함</option></select></div>
+      <div class="afield"><label>정비</label><select id="c_maint" onchange="autoCalcPrice('c')"><option value="0">미포함</option><option value="30000">포함(3만)</option><option value="50000">포함(5만)</option></select></div>
     </div>
   </div>
 </div>
