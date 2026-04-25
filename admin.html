@@ -364,7 +364,7 @@ body > *:not(#adminScreen) { display:none !important; }
 <div class="form-grid">
 <div class="afield"><label>고객명</label><input type="text" id="s_name" placeholder="홍길동"/></div>
 <div class="afield"><label>연락처</label><input type="tel" id="s_phone" placeholder="010-0000-0000" oninput="fmtTel(this)"/></div>
-<div class="afield"><label>생년월일</label><input type="text" id="s_birth" placeholder="19900101" maxlength="8" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
+<div class="afield"><label>생년월일</label><input type="text" id="s_birth" placeholder="19900101" maxlength="8" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
 <div class="afield"><label>견적일자</label><input type="date" id="s_date"/></div>
 </div>
 </div>
@@ -373,9 +373,9 @@ body > *:not(#adminScreen) { display:none !important; }
 <div class="acard-title">차량 정보</div>
 <div class="form-grid">
 <div class="afield"><label>차량모델</label><input type="text" id="s_model" placeholder="아반떼 (G)"/></div>
-<div class="afield"><label>연식</label><input type="text" id="s_year" placeholder="2024년식"/></div>
+<div class="afield"><label>연식</label><input type="text" id="s_year" placeholder="2024년식" inputmode="numeric"/></div>
 <div class="afield"><label>색상</label><input type="text" id="s_color" placeholder="아틀라스 화이트"/></div>
-<div class="afield"><label>주행거리 (km)</label><input type="text" id="s_mileage" placeholder="69,498"/></div>
+<div class="afield"><label>주행거리 (km)</label><input type="text" id="s_mileage" placeholder="69,498" inputmode="numeric"/></div>
 </div>
 </div>
 
@@ -455,7 +455,7 @@ body > *:not(#adminScreen) { display:none !important; }
 <div class="form-grid">
 <div class="afield"><label>고객명 *</label><input type="text" id="q_name" placeholder="홍길동"/></div>
 <div class="afield"><label>연락처 *</label><input type="tel" id="q_phone" placeholder="010-0000-0000" oninput="fmtTel(this)"/></div>
-<div class="afield"><label>생년월일</label><input type="text" id="q_birth" placeholder="19900101" maxlength="8" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
+<div class="afield"><label>생년월일</label><input type="text" id="q_birth" placeholder="19900101" maxlength="8" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
 <div class="afield"><label>견적일자</label><input type="date" id="q_date"/></div>
 </div>
 </div>
@@ -464,9 +464,9 @@ body > *:not(#adminScreen) { display:none !important; }
 <div class="acard-title">차량 정보</div>
 <div class="form-grid">
 <div class="afield"><label>차량모델 *</label><input type="text" id="q_model" placeholder="아반떼 (G)"/></div>
-<div class="afield"><label>연식</label><input type="text" id="q_year" placeholder="2024년식"/></div>
+<div class="afield"><label>연식</label><input type="text" id="q_year" placeholder="2024년식" inputmode="numeric"/></div>
 <div class="afield"><label>색상</label><input type="text" id="q_color" placeholder="아틀라스 화이트"/></div>
-<div class="afield"><label>주행거리 (km)</label><input type="text" id="q_mileage" placeholder="69,498"/></div>
+<div class="afield"><label>주행거리 (km)</label><input type="text" id="q_mileage" placeholder="69,498" inputmode="numeric"/></div>
 </div>
 </div>
 
@@ -587,7 +587,7 @@ body > *:not(#adminScreen) { display:none !important; }
 <div class="form-grid">
 <div class="afield"><label>고객명 *</label><input type="text" id="c_name" placeholder="홍길동"/></div>
 <div class="afield"><label>연락처 *</label><input type="tel" id="c_phone" placeholder="010-0000-0000" oninput="fmtTel(this)"/></div>
-<div class="afield"><label>주민번호</label><input type="text" id="c_birth" placeholder="000000-0000000" maxlength="14" oninput="fmtRRN(this)"/></div>
+<div class="afield"><label>주민번호</label><input type="text" id="c_birth" placeholder="000000-0000000" maxlength="14" inputmode="numeric" oninput="fmtRRN(this)"/></div>
 <div class="afield" style="grid-column:1/-1;">
 <label>주소</label>
 <div class="addr-group">
@@ -607,9 +607,9 @@ body > *:not(#adminScreen) { display:none !important; }
 <div class="form-grid">
 <div class="afield"><label>차량모델 *</label><input type="text" id="c_model" placeholder="아반떼 (G)"/></div>
 <div class="afield"><label>차량번호</label><input type="text" id="c_carnum" placeholder="12가 3456"/></div>
-<div class="afield"><label>연식</label><input type="text" id="c_year" placeholder="2024년식"/></div>
+<div class="afield"><label>연식</label><input type="text" id="c_year" placeholder="2024년식" inputmode="numeric"/></div>
 <div class="afield"><label>색상</label><input type="text" id="c_color" placeholder="아틀라스 화이트"/></div>
-<div class="afield"><label>주행거리 (km)</label><input type="text" id="c_mileage" placeholder="69,498"/></div>
+<div class="afield"><label>주행거리 (km)</label><input type="text" id="c_mileage" placeholder="69,498" inputmode="numeric"/></div>
 </div>
 </div>
 
