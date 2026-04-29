@@ -471,6 +471,10 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
             <div class="car-price-label">월 렌트료</div>
             <div class="car-price-val">40만원~</div>
           </div>
+          <div class="car-price-item">
+            <div class="car-price-label">단기대여료 1일</div>
+            <div class="car-price-val">4만원~</div>
+          </div>
         </div>
         <div class="car-emoji">🚙</div>
       </div>
@@ -483,6 +487,10 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
           <div class="car-price-item">
             <div class="car-price-label">월 렌트료</div>
             <div class="car-price-val">50만원~</div>
+          </div>
+          <div class="car-price-item">
+            <div class="car-price-label">단기대여료 1일</div>
+            <div class="car-price-val">5만원~</div>
           </div>
         </div>
         <div class="car-emoji">🚗</div>
@@ -497,6 +505,10 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
             <div class="car-price-label">월 렌트료</div>
             <div class="car-price-val">60만원~</div>
           </div>
+          <div class="car-price-item">
+            <div class="car-price-label">단기대여료 1일</div>
+            <div class="car-price-val">6만원~</div>
+          </div>
         </div>
         <div class="car-emoji">🏆</div>
       </div>
@@ -509,6 +521,10 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
           <div class="car-price-item">
             <div class="car-price-label">월 렌트료</div>
             <div class="car-price-val">60만원~</div>
+          </div>
+          <div class="car-price-item">
+            <div class="car-price-label">단기대여료 1일</div>
+            <div class="car-price-val">6만원~</div>
           </div>
         </div>
         <div class="car-emoji">🚐</div>
@@ -541,7 +557,10 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
         <div class="step-body">
           <div class="step-title">견적 상담 신청</div>
           <div class="step-desc">차량 예약 또는 고객센터를 통해 상담을 요청하세요.</div>
-          <a href="tel:062-973-6636" class="tel-btn">📞 고객센터 062-973-6636</a>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+            <a href="tel:062-973-6636" class="tel-btn" style="margin-top:0;">📞 고객센터 062-973-6636</a>
+            <a href="http://pf.kakao.com/_Funkn" target="_blank" class="tel-btn" style="margin-top:0;background:rgba(254,229,0,0.2);border-color:#FEE500;color:#3A1D1D;">💬 카카오 채널 문의</a>
+          </div>
         </div>
       </div>
 
@@ -627,7 +646,7 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
         </div>
 
         <div class="field">
-          <label class="flabel" for="budget">예산 규모 <span class="req">*</span></label>
+          <label class="flabel" for="budget">예산 규모 <span style="color:#94a3b8;font-weight:500;">(선택)</span></label>
           <input type="number" id="budget" inputmode="numeric" pattern="[0-9]*" min="0" placeholder="예: 500000" oninput="budgetHint()"/>
           <div class="hint" id="budgetHint"></div>
           <div class="err" id="errBudget">예산을 입력해주세요.</div>
@@ -731,7 +750,7 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
           🚗 팡팡렌트카 <span style="font-size:11px;font-weight:700;color:var(--soft);">PangPang Rent-a-car</span>
         </div>
         <div style="font-size:11px;color:var(--soft);line-height:2;text-align:left;">
-          <div>대표자 : 정한영</div>
+          <div><span style="font-weight:700;color:var(--ocean);">(유)팡팡렌트카</span> &nbsp;&nbsp;&nbsp; 대표자 : 정한영</div>
           <div>사업자등록번호 : 803-81-00790</div>
           <div>통신판매업 신고번호 : 제 2017-광주광산-00652호</div>
           <div>주소 : 광주광역시 광산구 첨단중앙로124번길17 2층 팡팡렌트카</div>
@@ -784,7 +803,6 @@ function validate(){
   }
   chk('rentalPeriod','errPeriod',document.getElementById('rentalPeriod').value.trim()&&Number(document.getElementById('rentalPeriod').value)>=1);
   chk('rentalRegion','errRegion',document.getElementById('rentalRegion').value!=='');
-  chk('budget','errBudget',document.getElementById('budget').value.trim()!=='');
   chk('name','errName',document.getElementById('name').value.trim().length>=1);
   chk('phone','errPhone',/^010-\d{4}-\d{4}$/.test(document.getElementById('phone').value.trim()));
   const g=document.querySelector('input[name="gender"]:checked');
