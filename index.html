@@ -821,13 +821,10 @@ audio.addEventListener('timeupdate',()=>{
   barFill.style.width=pct+'%';
   musicTime.textContent=fmt(audio.currentTime)+' / '+fmt(audio.duration);
 });
-audio.addEventListener('ended',()=>{
-  playBtn.textContent='▶';
-  barFill.style.width='0%';
-});
+
 function togglePlay(){
-  if(audio.paused){audio.play();playBtn.textContent='⏸';}
-  else{audio.pause();playBtn.textContent='▶';}
+  if(audio.paused){audio.play();playBtn.innerHTML='⏸';}
+  else{audio.pause();playBtn.innerHTML='▶';}
 }
 function seekMusic(e){
   if(!audio.duration)return;
@@ -836,6 +833,25 @@ function seekMusic(e){
   audio.currentTime=ratio*audio.duration;
 }
 
+// 자동 재생: 사용자 첫 터치/클릭 시 시작 (브라우저 정책상 필요)
+audio.loop = true; // 반복 재생
+function tryAutoPlay(){
+  audio.play().then(()=>{
+    playBtn.innerHTML='⏸';
+    document.removeEventListener('click', tryAutoPlay);
+    document.removeEventListener('touchstart', tryAutoPlay);
+  }).catch(()=>{});
+}
+// 페이지 로드 즉시 시도 (PC는 바로 됨)
+window.addEventListener('load', ()=>{
+  audio.play().then(()=>{ playBtn.innerHTML='⏸'; }).catch(()=>{
+    // 모바일은 첫 터치 후 재생
+    document.addEventListener('click', tryAutoPlay, {once:true});
+    document.addEventListener('touchstart', tryAutoPlay, {once:true});
+  });
+});
+
+// ended 이벤트 불필요 (loop=true)
 </script>
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzsNRvT1XHpNUKltdaavQVC5vwTeYfij4tqCQBhUhtepSrdYTZ6CbGoy-ivZbWLmbp6/exec';
