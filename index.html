@@ -471,7 +471,22 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
     <p>합리적인 가격과 믿을 수 있는 차량으로<br/>여러분의 이동을 책임집니다 🚗</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:22px;">
       <a href="#form" class="hero-cta" style="margin-top:0;">📋 지금 상담 신청하기</a>
-      <a href="tel:010-4835-6635" class="hero-cta" style="margin-top:0;background:linear-gradient(135deg,#34d399,#059669);box-shadow:0 6px 20px rgba(5,150,105,.38);">📞 지금 바로 문의하기</a>
+      <a href="javascript:void(0)" onclick="showCallPopup()" class="hero-cta" style="margin-top:0;background:linear-gradient(135deg,#34d399,#059669);box-shadow:0 6px 20px rgba(5,150,105,.38);">📞 지금 바로 문의하기</a>
+    </div>
+  </div>
+
+  <!-- 전화 지점 선택 팝업 -->
+  <div id="callPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:20px;padding:28px 24px;width:88%;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.25);text-align:center;">
+      <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:#0369a1;margin-bottom:6px;">📞 지점 선택</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:22px;">연결할 지점을 선택해주세요</div>
+      <a href="tel:062-973-6636" style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0ea5e9,#0369a1);color:#fff;border-radius:12px;padding:14px 18px;margin-bottom:10px;text-decoration:none;font-weight:800;font-size:15px;">
+        <span>🏢 광주 본점</span><span style="font-size:13px;opacity:.85;">062-973-6636</span>
+      </a>
+      <a href="tel:010-5145-8990" style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#34d399,#059669);color:#fff;border-radius:12px;padding:14px 18px;margin-bottom:18px;text-decoration:none;font-weight:800;font-size:15px;">
+        <span>🏢 장성지점</span><span style="font-size:13px;opacity:.85;">010-5145-8990</span>
+      </a>
+      <button onclick="hideCallPopup()" style="width:100%;padding:10px;border:1.5px solid #e2e8f0;background:#fff;border-radius:10px;color:#94a3b8;font-size:14px;cursor:pointer;">닫기</button>
     </div>
   </div>
 
@@ -594,7 +609,8 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
         <div class="step-body">
           <div class="step-title">견적 상담 신청</div>
           <div class="step-desc">차량 예약 또는 고객센터를 통해 상담을 요청하세요.</div>
-          <a href="tel:062-973-6636" class="tel-btn">📞 고객센터 062-973-6636</a>
+          <a href="tel:062-973-6636" class="tel-btn">📞 광주 본점 062-973-6636</a>
+          <a href="tel:010-5145-8990" class="tel-btn">📞 장성지점 010-5145-8990</a>
         </div>
       </div>
 
@@ -788,7 +804,7 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
           <div>사업자등록번호 : 803-81-00790</div>
           <div>통신판매업 신고번호 : 제 2017-광주광산-00652호</div>
           <div>주소 : 광주광역시 광산구 첨단중앙로124번길17 2층 팡팡렌트카</div>
-          <div>전화 : <a href="tel:010-4835-6635" style="color:var(--sky-deep);text-decoration:none;">010-4835-6635</a> &nbsp;|&nbsp; <a href="tel:062-973-6635" style="color:var(--sky-deep);text-decoration:none;">062-973-6635</a></div>
+          <div>전화 : <a href="tel:062-973-6635" style="color:var(--sky-deep);text-decoration:none;">062-973-6635</a></div>
           <div>개인정보관리책임자 : 정한영</div>
         </div>
         <div style="margin-top:12px;font-size:10px;color:rgba(3,105,161,0.4);">
@@ -801,6 +817,18 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
 </div><!-- /wrap -->
 
 <script>
+// ── 전화 지점 선택 팝업 ──────────────────
+function showCallPopup(){
+  const p=document.getElementById('callPopup');
+  p.style.display='flex';
+}
+function hideCallPopup(){
+  document.getElementById('callPopup').style.display='none';
+}
+document.getElementById('callPopup').addEventListener('click',function(e){
+  if(e.target===this) hideCallPopup();
+});
+
 // ── 행복송 플레이어 ──────────────────────
 const audio = document.getElementById('happySong');
 const playBtn = document.getElementById('playBtn');
