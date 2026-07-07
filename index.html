@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<title>팡팡렌트카 | 장기·단기 렌터카 상담신청</title>
+<title>광주 렌터카 팡팡렌트카 | 전남 장기·단기 렌터카 상담신청</title>
+<meta name="description" content="팡팡렌트카 - 광주광역시(동구·서구·남구·북구·광산구 월계동 등) 및 전남 나주·담양·화순·함평·영광·장성·목포·여수·순천·광양 등 전지역 보험대차 및 장기렌트카 전문. 합리적인 가격과 믿을 수 있는 차량, 팡팡렌트카가 함께합니다. 대표번호 1800-9336"/>
+<meta property="og:title" content="광주 렌터카 팡팡렌트카 | 전남 장기·단기 렌터카 상담신청"/>
+<meta property="og:description" content="광주광역시 및 전남 전지역 보험대차 및 장기렌트카 전문. 합리적인 가격과 믿을 수 있는 차량, 팡팡렌트카가 함께합니다."/>
+<meta property="og:type" content="website"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
@@ -467,8 +471,8 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
   <!-- ① 히어로 -->
   <div class="hero">
     <div class="hero-badge">☀️ PANGPANG RENT CAR</div>
-    <h1>팡팡렌트카<br/><span>장기 · 단기</span> 렌터카</h1>
-    <p>합리적인 가격과 믿을 수 있는 차량으로<br/>여러분의 이동을 책임집니다 🚗</p>
+    <h1>광주 렌터카 팡팡렌트카<br/><span>장기 · 단기</span> 렌터카</h1>
+    <p>광주광역시 · 전남 전지역<br/>합리적인 가격과 믿을 수 있는 차량으로<br/>여러분의 이동을 책임집니다 🚗</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:22px;">
       <a href="#form" class="hero-cta" style="margin-top:0;">📋 지금 상담 신청하기</a>
       <a href="javascript:void(0)" onclick="showCallPopup()" class="hero-cta" style="margin-top:0;background:linear-gradient(135deg,#34d399,#059669);box-shadow:0 6px 20px rgba(5,150,105,.38);">📞 지금 바로 문의하기</a>
@@ -480,6 +484,9 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
     <div style="background:#fff;border-radius:20px;padding:28px 24px;width:88%;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.25);text-align:center;">
       <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:#0369a1;margin-bottom:6px;">📞 지점 선택</div>
       <div style="font-size:13px;color:#64748b;margin-bottom:22px;">연결할 지점을 선택해주세요</div>
+      <a href="tel:1800-9336" style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:12px;padding:14px 18px;margin-bottom:10px;text-decoration:none;font-weight:800;font-size:15px;">
+        <span>☎️ 대표번호</span><span style="font-size:13px;opacity:.85;">1800-9336</span>
+      </a>
       <a href="tel:062-973-6636" style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0ea5e9,#0369a1);color:#fff;border-radius:12px;padding:14px 18px;margin-bottom:10px;text-decoration:none;font-weight:800;font-size:15px;">
         <span>🏢 광주 본점</span><span style="font-size:13px;opacity:.85;">062-973-6636</span>
       </a>
@@ -487,6 +494,23 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
         <span>🏢 장성지점</span><span style="font-size:13px;opacity:.85;">010-5145-8990</span>
       </a>
       <button onclick="hideCallPopup()" style="width:100%;padding:10px;border:1.5px solid #e2e8f0;background:#fff;border-radius:10px;color:#94a3b8;font-size:14px;cursor:pointer;">닫기</button>
+    </div>
+  </div>
+
+  <!-- 서비스 지역 확인 팝업 -->
+  <div id="regionPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:20px;padding:24px 22px;width:88%;max-width:360px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);text-align:left;">
+      <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:#0369a1;margin-bottom:6px;text-align:center;">📍 서비스 지역</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:16px;text-align:center;">광주광역시부터 전남 전지역까지 방문·탁송이 가능해요</div>
+      <div style="font-size:12.5px;line-height:1.9;color:var(--soft);background:#f8fbff;border-radius:14px;padding:14px 16px;">
+        <div><strong style="color:var(--ocean);">동구</strong> : 충장동, 동명동, 계림1동, 계림2동, 계림3동, 산수1동, 산수2동, 지산1동, 지산2동, 서남동, 학동, 학운동, 지원동</div>
+        <div style="margin-top:6px;"><strong style="color:var(--ocean);">서구</strong> : 양동, 양3동, 농성1동, 농성2동, 광천동, 유덕동, 화정1동, 화정2동, 화정3동, 상무1동, 상무2동, 치평동, 풍암동, 금호1동, 금호2동, 서창동, 세하동, 도평동</div>
+        <div style="margin-top:6px;"><strong style="color:var(--ocean);">남구</strong> : 양림동, 방림1동, 방림2동, 봉선1동, 봉선2동, 사직동, 월산동, 월산4동, 월산5동, 백운1동, 백운2동, 주월1동, 주월2동, 효덕동, 진월동, 송암동, 대촌동</div>
+        <div style="margin-top:6px;"><strong style="color:var(--ocean);">북구</strong> : 중앙동, 임동, 중흥1동, 중흥동, 신안동, 용봉동, 우산동, 풍향동, 문화동, 문흥1동, 문흥2동, 두암1동, 두암2동, 두암3동, 삼각동, 매곡동, 오치1동, 오치2동, 운암1동, 운암2동, 운암3동, 동림동, 석곡동, 일곡동, 건국동, 양산동, 신용동</div>
+        <div style="margin-top:6px;"><strong style="color:var(--ocean);">광산구</strong> : 송정1동, 송정2동, 도산동, 소촌동, 우산동, 신흥동, 어룡동, 운남동, 월곡1동, 월곡2동, 삼도동, 임곡동, 본량동, 평동, 동곡동, 하남동, 신가동, 수완동, 신창동, 비아동, 첨단1동, 첨단2동(월계동 포함)</div>
+        <div style="margin-top:6px;"><strong style="color:var(--ocean);">전라남도</strong> : 목포시, 여수시, 순천시, 나주시, 광양시, 담양군, 곡성군, 구례군, 고흥군, 보성군, 화순군, 장흥군, 강진군, 해남군, 영암군, 무안군, 함평군, 영광군, 장성군, 완도군, 진도군, 신안군</div>
+      </div>
+      <button onclick="hideRegionPopup()" style="width:100%;padding:10px;border:1.5px solid #e2e8f0;background:#fff;border-radius:10px;color:#94a3b8;font-size:14px;cursor:pointer;margin-top:14px;">닫기</button>
     </div>
   </div>
 
@@ -505,6 +529,25 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
     </div>
     <div class="music-note">🎶</div>
     <audio id="happySong" src="팡팡렌트카_행복송.mp3" preload="metadata"></audio>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 서비스 지역 -->
+  <div class="section">
+    <div class="section-label">📍 서비스 지역</div>
+    <div class="section-sub">광주광역시부터 전남 전지역까지 방문·탁송이 가능해요</div>
+    <details style="margin-top:10px;background:#f8fbff;border-radius:14px;padding:14px 18px;">
+      <summary style="cursor:pointer;font-weight:800;color:var(--ocean);font-size:13.5px;list-style:none;">지역별 상세 목록 보기 ▾</summary>
+      <div style="font-size:13px;line-height:2;color:var(--soft);text-align:left;margin-top:12px;">
+        <div><strong style="color:var(--ocean);">동구</strong> : 충장동, 동명동, 계림1동, 계림2동, 계림3동, 산수1동, 산수2동, 지산1동, 지산2동, 서남동, 학동, 학운동, 지원동</div>
+        <div style="margin-top:8px;"><strong style="color:var(--ocean);">서구</strong> : 양동, 양3동, 농성1동, 농성2동, 광천동, 유덕동, 화정1동, 화정2동, 화정3동, 상무1동, 상무2동, 치평동, 풍암동, 금호1동, 금호2동, 서창동, 세하동, 도평동</div>
+        <div style="margin-top:8px;"><strong style="color:var(--ocean);">남구</strong> : 양림동, 방림1동, 방림2동, 봉선1동, 봉선2동, 사직동, 월산동, 월산4동, 월산5동, 백운1동, 백운2동, 주월1동, 주월2동, 효덕동, 진월동, 송암동, 대촌동</div>
+        <div style="margin-top:8px;"><strong style="color:var(--ocean);">북구</strong> : 중앙동, 임동, 중흥1동, 중흥동, 신안동, 용봉동, 우산동, 풍향동, 문화동, 문흥1동, 문흥2동, 두암1동, 두암2동, 두암3동, 삼각동, 매곡동, 오치1동, 오치2동, 운암1동, 운암2동, 운암3동, 동림동, 석곡동, 일곡동, 건국동, 양산동, 신용동</div>
+        <div style="margin-top:8px;"><strong style="color:var(--ocean);">광산구</strong> : 송정1동, 송정2동, 도산동, 소촌동, 우산동, 신흥동, 어룡동, 운남동, 월곡1동, 월곡2동, 삼도동, 임곡동, 본량동, 평동, 동곡동, 하남동, 신가동, 수완동, 신창동, 비아동, 첨단1동, 첨단2동(월계동 포함)</div>
+        <div style="margin-top:8px;"><strong style="color:var(--ocean);">전라남도</strong> : 목포시, 여수시, 순천시, 나주시, 광양시, 담양군, 곡성군, 구례군, 고흥군, 보성군, 화순군, 장흥군, 강진군, 해남군, 영암군, 무안군, 함평군, 영광군, 장성군, 완도군, 진도군, 신안군</div>
+      </div>
+    </details>
   </div>
 
   <div class="divider"></div>
@@ -609,6 +652,7 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
         <div class="step-body">
           <div class="step-title">견적 상담 신청</div>
           <div class="step-desc">차량 예약 또는 고객센터를 통해 상담을 요청하세요.</div>
+          <a href="tel:1800-9336" class="tel-btn">📞 대표번호 1800-9336</a>
           <a href="tel:062-973-6636" class="tel-btn">📞 광주 본점 062-973-6636</a>
           <a href="tel:010-5145-8990" class="tel-btn">📞 장성지점 010-5145-8990</a>
         </div>
@@ -693,6 +737,7 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
             <option>영광</option><option>기타</option>
           </select>
           <div class="err" id="errRegion">지역을 선택해주세요.</div>
+          <a href="javascript:void(0)" onclick="showRegionPopup()" style="display:inline-block;margin-top:8px;font-size:12px;color:var(--sky-deep);text-decoration:underline;">📍 서비스 지역 확인하기</a>
         </div>
 
         <div class="field">
@@ -804,6 +849,7 @@ textarea{min-height:110px;resize:vertical;line-height:1.6;}
           <div>사업자등록번호 : 803-81-00790</div>
           <div>통신판매업 신고번호 : 제 2017-광주광산-00652호</div>
           <div>주소 : 광주광역시 광산구 첨단중앙로124번길17 2층 팡팡렌트카</div>
+          <div>대표번호 : <a href="tel:1800-9336" style="color:var(--sky-deep);text-decoration:none;">1800-9336</a></div>
           <div>전화 : <a href="tel:062-973-6635" style="color:var(--sky-deep);text-decoration:none;">062-973-6635</a></div>
           <div>개인정보관리책임자 : 정한영</div>
         </div>
@@ -827,6 +873,18 @@ function hideCallPopup(){
 }
 document.getElementById('callPopup').addEventListener('click',function(e){
   if(e.target===this) hideCallPopup();
+});
+
+// ── 서비스 지역 확인 팝업 ──────────────────
+function showRegionPopup(){
+  const p=document.getElementById('regionPopup');
+  p.style.display='flex';
+}
+function hideRegionPopup(){
+  document.getElementById('regionPopup').style.display='none';
+}
+document.getElementById('regionPopup').addEventListener('click',function(e){
+  if(e.target===this) hideRegionPopup();
 });
 
 // ── 행복송 플레이어 ──────────────────────
